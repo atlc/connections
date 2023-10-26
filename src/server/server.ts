@@ -13,13 +13,15 @@ const Query = (sql: string, vals: unknown[] = []) => {
 const isProduction = process.env.NODE_ENV === "production";
 
 const app = express();
+
 app.use(express.json());
 app.use(isProduction ? express.static("public") : cors());
 
 app.get("/api/boards", (req, res) => {
     Query("SELECT * FROM Boards ORDER BY id DESC")
-        .then(res.json)
+        .then((data) => res.json(data))
         .catch((err) => {
+            console.log(err);
             res.status(500).json({
                 message: `Can't get old boards right now :( (send Andrew "${err.sqlMessage || err.message}")`,
             });
@@ -32,8 +34,9 @@ app.post("/api/boards", (req, res) => {
         return res.status(400).json({ message: `Make sure both name and the board are provided!` });
 
     Query("INSERT INTO Boards SET ?", [{ name, board, number }])
-        .then(res.json)
+        .then(() => res.status(201).json({ message: "Added!" }))
         .catch((err) => {
+            console.log(err);
             const message = err.sqlMessage || err.message;
             res.status(500).json({ message: `Can't add new boards :( (give error code of "${message}" to Andrew)` });
         });

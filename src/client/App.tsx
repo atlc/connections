@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 
 interface Board {
+    id: number;
     name: string;
     board: string;
     number: string;
@@ -19,6 +20,26 @@ const App = () => {
     const [showAddBoard, setShowAddBoard] = useState(true);
     const [board, setBoard] = useState("");
 
+    function sanitize(boardString: string) {
+        return boardString
+            .replace(/\w+\s+/g, "")
+            .replace("#", "")
+            .replace(/🟪/g, "P")
+            .replace(/🟦/g, "B")
+            .replace(/🟩/g, "G")
+            .replace(/🟨/g, "Y");
+    }
+
+    function unsanitize(sanitizedBoard: string) {
+        return sanitizedBoard.replace(/P/g, "🟪").replace(/B/g, "🟦").replace(/G/g, "🟩").replace(/Y/g, "🟨");
+    }
+
+    function getNumber(boardString: string) {
+        console.log({ boardString });
+
+        return boardString.split(/Puzzle #/g)[1]!.match(/\d+/g)![0];
+    }
+
     async function loadPastBoards() {
         try {
             const res = await fetch("/api/boards");
@@ -27,12 +48,7 @@ const App = () => {
             if (!res.ok) throw new Error(data.message);
 
             const byDate: { [key: string]: Board[] } = {};
-            const withNumber = (data as Board[]).map((b) => ({
-                ...b,
-                number: b.board.split(/Puzzle #/g)[1]!.match(/\d+/g)![0],
-            }));
-
-            withNumber.forEach((b) => {
+            (data as Board[]).forEach((b) => {
                 if (!byDate[b.number]) {
                     byDate[b.number] = [b];
                 } else {
@@ -54,13 +70,18 @@ const App = () => {
 
     async function addBoard() {
         if (!board || !name) return;
+
         try {
             const res = await fetch("/api/boards", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ name, board, number: board.split(/Puzzle #/g)[1]!.match(/\d+/g)![0] }),
+                body: JSON.stringify({
+                    name,
+                    board: sanitize(board),
+                    number: getNumber(board),
+                }),
             });
             const data = await res.json();
 
@@ -68,6 +89,7 @@ const App = () => {
 
             loadPastBoards();
             setShowAddBoard(false);
+            setBoard("");
         } catch (error) {
             Swal.fire({
                 title: "Oh no :(",
@@ -152,13 +174,15 @@ const App = () => {
                     key={`puzzle-row-${key}`}
                     className="my-5 rounded-3 p-2 bg-light-subtle row justify-content-center"
                 >
-                    <h1 className="text-center">#{key}</h1>
+                    <h1 className="text-center">Puzzle #{key}</h1>
                     {boards[key].map((b) => (
-                        <div key={`${b.name}-puzzle-card-${key}`} className="my-1 col-12 col-md-6 col-lg-4">
+                        <div key={`${b.name}-puzzle-card-${b.id}`} className="my-1 col-12 col-md-6 col-lg-4">
                             <div className="card shadow-lg">
-                                <h1 className="text-center text-muted">{b.name}</h1>
+                                <h1 className="text-center text-muted">
+                                    {b.name} <span>(solution id #{b.id})</span>
+                                </h1>
                                 <textarea className="form-control text-center" rows={5} readOnly>
-                                    {b.board.replace(/\w+\s+/g, "").replace("#", "")}
+                                    {unsanitize(b.board)}
                                 </textarea>
                             </div>
                         </div>
