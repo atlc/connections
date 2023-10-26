@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(isProduction ? express.static("public") : cors());
 
 app.get("/api/boards", (req, res) => {
-    Query("SELECT * FROM Boards")
+    Query("SELECT * FROM Boards ORDER BY id DESC")
         .then(res.json)
         .catch((err) => {
             res.status(500).json({
@@ -27,10 +27,11 @@ app.get("/api/boards", (req, res) => {
 });
 
 app.post("/api/boards", (req, res) => {
-    const { name, board } = req.body;
-    if (!name || !board) return res.status(400).json({ message: `Make sure both name and the board are provided!` });
+    const { name, board, number } = req.body;
+    if (!name || !board || !number)
+        return res.status(400).json({ message: `Make sure both name and the board are provided!` });
 
-    Query("INSERT INTO Boards SET ?", [{ name, board }])
+    Query("INSERT INTO Boards SET ?", [{ name, board, number }])
         .then(res.json)
         .catch((err) => {
             const message = err.sqlMessage || err.message;
