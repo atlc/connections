@@ -169,26 +169,28 @@ const App = () => {
                     </div>
                 )}
             </div>
-            {Object.keys(boards).map((key) => (
-                <div
-                    key={`puzzle-row-${key}`}
-                    className="my-5 rounded-3 p-2 bg-light-subtle row justify-content-center"
-                >
-                    <h1 className="text-center">Puzzle #{key}</h1>
-                    {boards[key].map((b) => (
-                        <div key={`${b.name}-puzzle-card-${b.id}`} className="my-1 col-12 col-md-6 col-lg-4">
-                            <div className="card shadow-lg">
-                                <h1 className="text-center text-muted">
-                                    {b.name} <span>(solution id #{b.id})</span>
-                                </h1>
-                                <textarea className="form-control text-center" rows={5} readOnly>
-                                    {unsanitize(b.board)}
-                                </textarea>
+            {Object.keys(boards)
+                .reverse()
+                .map((key) => (
+                    <div
+                        key={`puzzle-row-${key}`}
+                        className="my-5 rounded-3 p-2 bg-light-subtle row justify-content-center"
+                    >
+                        <h1 className="text-center">Puzzle #{key}</h1>
+                        {boards[key].map((b) => (
+                            <div key={`${b.name}-puzzle-card-${b.id}`} className="my-1 col-12 col-md-6 col-lg-4">
+                                <div className="card shadow-lg">
+                                    <h1 className="text-center text-muted">
+                                        {b.name} <span>(solution id #{b.id})</span>
+                                    </h1>
+                                    <textarea className="form-control text-center" rows={5} readOnly>
+                                        {unsanitize(b.board)}
+                                    </textarea>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
-            ))}
+                        ))}
+                    </div>
+                ))}
         </div>
     );
 };
