@@ -180,10 +180,8 @@ const App = () => {
                         {boards[key].map((b) => (
                             <div key={`${b.name}-puzzle-card-${b.id}`} className="my-1 col-12 col-md-6 col-lg-4">
                                 <div className="card shadow-lg">
-                                    <h1 className="text-center text-muted">
-                                        {b.name} <span>(solution id #{b.id})</span>
-                                    </h1>
-                                    <textarea className="form-control text-center" rows={5} readOnly>
+                                    <h1 className="text-center text-muted">{b.name}</h1>
+                                    <textarea className="form-control text-center" rows={8} readOnly>
                                         {unsanitize(b.board)}
                                     </textarea>
                                 </div>
