@@ -204,12 +204,14 @@ const App = () => {
             </div>
             <div className="row">
                 <div className="col-12">
-                    <h4 className="text-center">Hot Streaks:</h4>
-                    {Object.entries(leaderBoard).map(([name, score]) => (
-                        <span>
-                            [{name}: {score}]
-                        </span>
-                    ))}
+                    <h4 className="text-center">
+                        Hot Streaks (beta feature with broken calcs in progress):{" "}
+                        {Object.entries(leaderBoard).map(([name, score]) => (
+                            <span className="mx-2">
+                                [{name}: {score}]
+                            </span>
+                        ))}
+                    </h4>
                 </div>
             </div>
             {Object.keys(boards)
