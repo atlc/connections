@@ -8,6 +8,10 @@ interface Board {
     number: string;
 }
 
+interface Leaderboard {
+    [name: string]: number;
+}
+
 interface DateSortedBoards {
     [puzzleNum: string]: Board[];
 }
@@ -19,6 +23,7 @@ const App = () => {
     const [boards, setBoards] = useState<DateSortedBoards>({});
     const [showAddBoard, setShowAddBoard] = useState(true);
     const [board, setBoard] = useState("");
+    const [leaderBoard, setLeaderboard] = useState<Leaderboard>({});
 
     function sanitize(boardString: string) {
         return boardString
@@ -55,6 +60,34 @@ const App = () => {
                     byDate[b.number].push(b);
                 }
             });
+
+            const leaders: Leaderboard = {};
+            const days = Object.keys(byDate).reverse();
+
+            days.forEach((day, i) => {
+                const isNotFirstDay = i > 0;
+                const dayPlayers = [...new Set(byDate[day].map((dayPlayer) => dayPlayer.name))];
+                const previousDayPlayers = isNotFirstDay
+                    ? [...new Set(byDate[days[i - 1]].map((dayPlayer) => dayPlayer.name))]
+                    : [];
+
+                for (const player of dayPlayers) {
+                    const playerIsInLeaderBoard = leaders[player];
+                    const playerPlayedYesterday = isNotFirstDay && previousDayPlayers.includes(player);
+
+                    if (!playerIsInLeaderBoard) {
+                        leaders[player] = 1;
+                    } else {
+                        if (!playerPlayedYesterday) {
+                            leaders[player] = 1;
+                        } else {
+                            leaders[player] += 1;
+                        }
+                    }
+                }
+            });
+
+            setLeaderboard(leaders);
             setBoards(byDate);
         } catch (error) {
             Swal.fire({
@@ -121,7 +154,7 @@ const App = () => {
     return (
         <div className="container">
             <div className="row justify-content-center">
-                <div className="mt-3 card bg-white p-3">
+                <div className="mt-2 card bg-white p-2">
                     <h1>
                         {hadName && !changeName && (
                             <button onClick={() => setChangeName(true)} className="btn btn-success">
@@ -168,6 +201,16 @@ const App = () => {
                         )}
                     </div>
                 )}
+            </div>
+            <div className="row">
+                <div className="col-12">
+                    <h4 className="text-center">Hot Streaks:</h4>
+                    {Object.entries(leaderBoard).map(([name, score]) => (
+                        <span>
+                            [{name}: {score}]
+                        </span>
+                    ))}
+                </div>
             </div>
             {Object.keys(boards)
                 .reverse()

@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(isProduction ? express.static("public") : cors());
 
 app.get("/api/boards", (req, res) => {
-    Query("SELECT * FROM Boards ORDER BY id DESC")
+    Query("SELECT * FROM Boards GROUP BY number, name ORDER BY id DESC")
         .then((data) => res.json(data))
         .catch((err) => {
             console.log(err);
