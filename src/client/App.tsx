@@ -208,7 +208,7 @@ const App = () => {
                         Best all-time streaks:
                         {Object.entries(leaderBoard).map(([name, score]) => (
                             <span className="mx-3">
-                                [ {name}: {score} ]
+                                [ {name.trim()}: {score} ]
                             </span>
                         ))}
                     </h4>
