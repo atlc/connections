@@ -205,10 +205,10 @@ const App = () => {
             <div className="row">
                 <div className="col-12">
                     <h4 className="text-center">
-                        Hot Streaks (beta feature with broken calcs in progress):{" "}
+                        Best all-time streaks:
                         {Object.entries(leaderBoard).map(([name, score]) => (
-                            <span className="mx-2">
-                                [{name}: {score}]
+                            <span className="mx-3">
+                                [ {name}: {score} ]
                             </span>
                         ))}
                     </h4>
