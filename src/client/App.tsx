@@ -296,7 +296,25 @@ const App = () => {
                         key={`puzzle-row-${key}`}
                         className="my-5 rounded-3 p-2 bg-light-subtle row justify-content-center"
                     >
-                        <h1 className="text-center">Puzzle #{key}</h1>
+                        <h1 className="text-center">
+                            Puzzle #{key}{" "}
+                            {boards[key].every((b) => b.is_perfect) ? (
+                                <span className="text-success">(Team ACE!)</span>
+                            ) : (
+                                ""
+                            )}
+                            {boards[key].every(
+                                (b) =>
+                                    b.board.split("\n").filter((row) => [...row].every((char) => char === row[0]))
+                                        .length !== 4
+                            ) ? (
+                                <span className="text-danger">
+                                    <em>(Embarrassing!)</em>
+                                </span>
+                            ) : (
+                                ""
+                            )}
+                        </h1>
                         {boards[key].map((b) => (
                             <div key={`${b.name}-puzzle-card-${b.id}`} className="my-1 col-6 col-md-4 col-lg-3">
                                 <div className="card shadow-lg">
