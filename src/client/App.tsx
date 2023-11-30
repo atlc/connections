@@ -300,14 +300,13 @@ const App = () => {
                             Puzzle #{key}{" "}
                             {boards[key].every((b) => b.is_perfect) ? (
                                 <span className="text-success">(Team ACE!)</span>
-                            ) : (
-                                ""
-                            )}
-                            {boards[key].every(
-                                (b) =>
-                                    b.board.split("\n").filter((row) => [...row].every((char) => char === row[0]))
-                                        .length !== 4
-                            ) ? (
+                            ) : boards[key].every(
+                                  (b) =>
+                                      b.board
+                                          .split("\n")
+                                          .map((row) => row.trim())
+                                          .filter((row) => [...row].every((char) => char === row[0])).length !== 4
+                              ) ? (
                                 <span className="text-danger">
                                     <em>(Embarrassing!)</em>
                                 </span>
