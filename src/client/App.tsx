@@ -71,20 +71,44 @@ const App = () => {
                     ? [...new Set(byDate[days[i - 1]].map((dayPlayer) => dayPlayer.name))]
                     : [];
 
-                for (const player of dayPlayers) {
-                    const playerIsInLeaderBoard = leaders[player];
-                    const playerPlayedYesterday = isNotFirstDay && previousDayPlayers.includes(player);
+                console.log("------------------------------------");
+                console.log(`The day is ${day}, and the following players have played today so far:`);
+                console.log(dayPlayers);
+                console.log(`The following players played yesterday:`);
+                console.log(previousDayPlayers);
+                console.log(`The leaderboard standings AFTER updating player scores for ${day}:`);
+                console.log({ ...leaders });
 
-                    if (!playerIsInLeaderBoard) {
+                for (const player of dayPlayers) {
+                    const isInLeaderboard = leaders[player];
+                    const playedYesterday = isNotFirstDay && previousDayPlayers.includes(player);
+
+                    console.log(
+                        `For day ${day}, ${player} ${
+                            isInLeaderboard ? "exists" : "does not exist yet"
+                        } in the leaderboard, and if ${player} exists, they ${
+                            playedYesterday ? "did" : "did not"
+                        } play yesterday.`
+                    );
+
+                    if (!isInLeaderboard) {
+                        console.log(`${player} did not exist in the leaderboard, and has been added with a score of 1`);
                         leaders[player] = 1;
                     } else {
-                        if (!playerPlayedYesterday) {
+                        if (!playedYesterday) {
+                            console.log(`${player} did not play yesterday. Active streak has been reset to 1`);
                             leaders[player] = 1;
                         } else {
+                            console.log(`${player} did play yesterday. Previous score ${leaders[player]}`);
                             leaders[player] += 1;
+                            console.log(`${player} did play yesterday. Updated score ${leaders[player]}`);
                         }
                     }
                 }
+
+                console.log(`The leaderboard standings AFTER updating player scores for ${day}:`);
+                console.log({ ...leaders });
+                console.log("------------------------------------\n");
             });
 
             setLeaderboard(leaders);
@@ -204,6 +228,18 @@ const App = () => {
             </div>
             <div className="row">
                 <div className="col-12">
+                    <h4 className="text-center">
+                        Active streaks:
+                        {Object.entries(leaderBoard).map(([name, score]) => (
+                            <span className="mx-3">[ {name.trim()}: ]</span>
+                        ))}
+                    </h4>
+                    <h4 className="text-center">
+                        Perfect boards:
+                        {Object.entries(leaderBoard).map(([name, score]) => (
+                            <span className="mx-3">[ {name.trim()}: ]</span>
+                        ))}
+                    </h4>
                     <h4 className="text-center">
                         Best all-time streaks:
                         {Object.entries(leaderBoard).map(([name, score]) => (
