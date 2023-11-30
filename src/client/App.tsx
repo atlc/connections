@@ -6,6 +6,8 @@ interface Board {
     name: string;
     board: string;
     number: string;
+    created_at: Date;
+    is_perfect: boolean;
 }
 
 interface Leaderboard {
@@ -116,9 +118,8 @@ const App = () => {
                 console.log("------------------------------------\n");
 
                 const dayBoard = byDate[day];
-                dayBoard.forEach(({ board, name }) => {
-                    const lines = board.split("\n").length;
-                    if (lines === 4) {
+                dayBoard.forEach(({ name, is_perfect }) => {
+                    if (is_perfect) {
                         leaders[name].perfect += 1;
                     }
                 });
@@ -299,7 +300,9 @@ const App = () => {
                         {boards[key].map((b) => (
                             <div key={`${b.name}-puzzle-card-${b.id}`} className="my-1 col-6 col-md-4 col-lg-3">
                                 <div className="card shadow-lg">
-                                    <h1 className="text-center text-muted">{b.name}</h1>
+                                    <h1 className={`text-center text-muted ${b.is_perfect ? "bg-success-subtle" : ""}`}>
+                                        {b.name} {b.is_perfect ? "🌟" : ""}
+                                    </h1>
                                     <textarea
                                         style={{ resize: "none" }}
                                         className="form-control text-center"

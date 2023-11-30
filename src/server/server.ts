@@ -33,7 +33,10 @@ app.post("/api/boards", (req, res) => {
     if (!name || !board || !number)
         return res.status(400).json({ message: `Make sure both name and the board are provided!` });
 
-    Query("INSERT INTO Boards SET ?", [{ name, board, number }])
+    const newline_count = [...board].filter((char) => char === "\n").length;
+    const is_perfect = newline_count === 3;
+
+    Query("INSERT INTO Boards SET ?", [{ name, board, number, is_perfect }])
         .then(() => res.status(201).json({ message: "Added!" }))
         .catch((err) => {
             console.log(err);
