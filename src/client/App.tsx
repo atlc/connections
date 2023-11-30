@@ -240,37 +240,52 @@ const App = () => {
                 )}
             </div>
             <div className="row">
+                <h1 className="text-center">Leaders:</h1>
                 <div className="col-12">
-                    <h4 className="text-center">
-                        Active streaks:
+                    <div className="row">
+                        <div className="col-12">
+                            <h4 className="text-center">Active streaks:</h4>
+                        </div>
                         {Object.entries(leaderBoard)
                             .sort(([prevName, { active }], [newName, { active: newActive }]) => newActive - active)
                             .map(([name, { active }]) => (
-                                <span className="mx-3">
-                                    {name.trim()}: {active}
-                                </span>
+                                <div className="col-3">
+                                    <span>
+                                        {name.trim()}: {active}
+                                    </span>
+                                </div>
                             ))}
-                    </h4>
-                    <h4 className="text-center">
-                        Perfect boards:
+                    </div>
+
+                    <div className="row">
+                        <div className="col-12">
+                            <h4 className="text-center">Perfect boards:</h4>
+                        </div>
                         {Object.entries(leaderBoard)
                             .sort(([prevName, { perfect }], [newName, { perfect: newPerfect }]) => newPerfect - perfect)
                             .map(([name, { perfect }]) => (
-                                <span className="mx-3">
-                                    {name.trim()}: {perfect}
-                                </span>
+                                <div className="col-3">
+                                    <span>
+                                        {name.trim()}: {perfect}
+                                    </span>
+                                </div>
                             ))}
-                    </h4>
-                    <h4 className="text-center">
-                        Best all-time streaks:
+                    </div>
+
+                    <div className="row">
+                        <div className="col-12">
+                            <h4 className="text-center">Best all-time streaks:</h4>
+                        </div>
                         {Object.entries(leaderBoard)
                             .sort(([prevName, { max }], [newName, { max: newMax }]) => newMax - max)
                             .map(([name, { max }]) => (
-                                <span className="mx-3">
-                                    {name.trim()}: {max}
-                                </span>
+                                <div className="col-3">
+                                    <span>
+                                        {name.trim()}: {max}
+                                    </span>
+                                </div>
                             ))}
-                    </h4>
+                    </div>
                 </div>
             </div>
             {Object.keys(boards)
@@ -282,10 +297,15 @@ const App = () => {
                     >
                         <h1 className="text-center">Puzzle #{key}</h1>
                         {boards[key].map((b) => (
-                            <div key={`${b.name}-puzzle-card-${b.id}`} className="my-1 col-12 col-md-6 col-lg-4">
+                            <div key={`${b.name}-puzzle-card-${b.id}`} className="my-1 col-6 col-md-4 col-lg-3">
                                 <div className="card shadow-lg">
                                     <h1 className="text-center text-muted">{b.name}</h1>
-                                    <textarea className="form-control text-center" rows={8} readOnly>
+                                    <textarea
+                                        style={{ resize: "none" }}
+                                        className="form-control text-center"
+                                        rows={7}
+                                        readOnly
+                                    >
                                         {unsanitize(b.board)}
                                     </textarea>
                                 </div>
