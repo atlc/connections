@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import Leaderboard from "./components/Leaderboard";
+import Boards from "./components/Boards";
+import { sanitize } from "./utilities/parsers";
 
-interface Board {
+export interface IBoard {
     id: number;
     name: string;
     board: string;
@@ -10,7 +13,7 @@ interface Board {
     is_perfect: boolean;
 }
 
-interface Leaderboard {
+export interface ILeaderboard {
     [name: string]: {
         active: number;
         max: number;
@@ -18,8 +21,8 @@ interface Leaderboard {
     };
 }
 
-interface DateSortedBoards {
-    [puzzleNum: string]: Board[];
+export interface DateSortedBoards {
+    [puzzleNum: string]: IBoard[];
 }
 
 const App = () => {
@@ -29,21 +32,7 @@ const App = () => {
     const [boards, setBoards] = useState<DateSortedBoards>({});
     const [showAddBoard, setShowAddBoard] = useState(true);
     const [board, setBoard] = useState("");
-    const [leaderBoard, setLeaderboard] = useState<Leaderboard>({});
-
-    function sanitize(boardString: string) {
-        return boardString
-            .replace(/\w+\s+/g, "")
-            .replace("#", "")
-            .replace(/🟪/g, "P")
-            .replace(/🟦/g, "B")
-            .replace(/🟩/g, "G")
-            .replace(/🟨/g, "Y");
-    }
-
-    function unsanitize(sanitizedBoard: string) {
-        return sanitizedBoard.replace(/P/g, "🟪").replace(/B/g, "🟦").replace(/G/g, "🟩").replace(/Y/g, "🟨");
-    }
+    const [leaderBoard, setLeaderboard] = useState<ILeaderboard>({});
 
     function getNumber(boardString: string) {
         console.log({ boardString });
@@ -58,8 +47,8 @@ const App = () => {
 
             if (!res.ok) throw new Error(data.message);
 
-            const byDate: { [key: string]: Board[] } = {};
-            (data as Board[]).forEach((b) => {
+            const byDate: { [key: string]: IBoard[] } = {};
+            (data as IBoard[]).forEach((b) => {
                 if (!byDate[b.number]) {
                     byDate[b.number] = [b];
                 } else {
@@ -67,7 +56,7 @@ const App = () => {
                 }
             });
 
-            const leaders: Leaderboard = {};
+            const leaders: ILeaderboard = {};
             const days = Object.keys(byDate).reverse();
 
             days.forEach((day, i) => {
@@ -82,8 +71,6 @@ const App = () => {
                 console.log(dayPlayers);
                 console.log(`The following players played yesterday:`);
                 console.log(previousDayPlayers);
-                console.log(`The leaderboard standings AFTER updating player scores for ${day}:`);
-                console.log({ ...leaders });
 
                 for (const player of dayPlayers) {
                     const isInLeaderboard = leaders[player];
@@ -113,8 +100,6 @@ const App = () => {
                     }
                 }
 
-                console.log(`The leaderboard standings AFTER updating player scores for ${day}:`);
-                console.log({ ...leaders });
                 console.log("------------------------------------\n");
 
                 const dayBoard = byDate[day];
@@ -195,12 +180,12 @@ const App = () => {
                 <div className="mt-2 card bg-white p-2">
                     <div>
                         {!board && (
-                            <button onClick={() => setShowAddBoard(!showAddBoard)} className="btn btn-success m-2">
+                            <button onClick={() => setShowAddBoard(!showAddBoard)} className="btn btn-secondary m-2">
                                 {showAddBoard ? "Hide board input?" : "Show board input?"}
                             </button>
                         )}
                         {hadName && !changeName && (
-                            <button onClick={() => setChangeName(true)} className="btn btn-success m-2">
+                            <button onClick={() => setChangeName(true)} className="btn btn-secondary m-2">
                                 Change name? ({name})
                             </button>
                         )}
@@ -215,7 +200,7 @@ const App = () => {
                                 placeholder="Ken Jennings"
                                 className="form-control"
                             />
-                            <button onClick={handleNameChange} className="btn btn-success mt-4">
+                            <button onClick={handleNameChange} className="btn btn-secondary mt-4">
                                 {hadName ? "Update name?" : "Set name"}
                             </button>
                         </>
@@ -233,106 +218,16 @@ const App = () => {
                             />
                         )}
                         {board && (
-                            <button onClick={addBoard} className="btn btn-success">
+                            <button onClick={addBoard} className="btn btn-secondary">
                                 Add board
                             </button>
                         )}
                     </div>
                 )}
             </div>
-            <div className="row">
-                <h1 className="text-center">Leaders:</h1>
-                <div className="col-12">
-                    <div className="row">
-                        <div className="col-12">
-                            <h4 className="text-center">Active streaks:</h4>
-                        </div>
-                        {Object.entries(leaderBoard)
-                            .sort(([prevName, { active }], [newName, { active: newActive }]) => newActive - active)
-                            .map(([name, { active }]) => (
-                                <div className="col-3">
-                                    <span>
-                                        {name.trim()}: {active}
-                                    </span>
-                                </div>
-                            ))}
-                    </div>
 
-                    <div className="row">
-                        <div className="col-12">
-                            <h4 className="text-center">Perfect boards:</h4>
-                        </div>
-                        {Object.entries(leaderBoard)
-                            .sort(([prevName, { perfect }], [newName, { perfect: newPerfect }]) => newPerfect - perfect)
-                            .map(([name, { perfect }]) => (
-                                <div className="col-3">
-                                    <span>
-                                        {name.trim()}: {perfect}
-                                    </span>
-                                </div>
-                            ))}
-                    </div>
-
-                    <div className="row">
-                        <div className="col-12">
-                            <h4 className="text-center">Best all-time streaks:</h4>
-                        </div>
-                        {Object.entries(leaderBoard)
-                            .sort(([prevName, { max }], [newName, { max: newMax }]) => newMax - max)
-                            .map(([name, { max }]) => (
-                                <div className="col-3">
-                                    <span>
-                                        {name.trim()}: {max}
-                                    </span>
-                                </div>
-                            ))}
-                    </div>
-                </div>
-            </div>
-            {Object.keys(boards)
-                .reverse()
-                .map((key) => (
-                    <div
-                        key={`puzzle-row-${key}`}
-                        className="my-5 rounded-3 p-2 bg-light-subtle row justify-content-center"
-                    >
-                        <h1 className="text-center">
-                            Puzzle #{key}{" "}
-                            {boards[key].every((b) => b.is_perfect) ? (
-                                <span className="text-success">(Team ACE!)</span>
-                            ) : boards[key].every(
-                                  (b) =>
-                                      b.board
-                                          .split("\n")
-                                          .map((row) => row.trim())
-                                          .filter((row) => [...row].every((char) => char === row[0])).length !== 4
-                              ) ? (
-                                <span className="text-danger">
-                                    <em>(Embarrassing!)</em>
-                                </span>
-                            ) : (
-                                ""
-                            )}
-                        </h1>
-                        {boards[key].map((b) => (
-                            <div key={`${b.name}-puzzle-card-${b.id}`} className="my-1 col-6 col-md-4 col-lg-3">
-                                <div className={`card p-1 shadow-lg ${b.is_perfect ? "bg-success-subtle" : ""}`}>
-                                    <h1 className={`text-center ${b.is_perfect ? "text-success" : "text-muted"}`}>
-                                        {b.name} {b.is_perfect ? "🌟" : ""}
-                                    </h1>
-                                    <textarea
-                                        style={{ resize: "none" }}
-                                        className="form-control text-center"
-                                        rows={7}
-                                        readOnly
-                                    >
-                                        {unsanitize(b.board)}
-                                    </textarea>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                ))}
+            <Leaderboard leaderBoard={leaderBoard} />
+            <Boards boards={boards} />
         </div>
     );
 };
