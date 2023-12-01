@@ -4,6 +4,7 @@ export interface IBoard {
     board: string;
     number: string;
     created_at: Date;
+    is_win: boolean;
     is_perfect: boolean;
 }
 

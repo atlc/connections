@@ -1,14 +1,6 @@
 import express from "express";
 import cors from "cors";
-import mysql from "mysql";
-
-const Query = (sql: string, vals: unknown[] = []) => {
-    return new Promise((resolve, reject) => {
-        mysql.createPool(process.env.DB_URL!).query(sql, vals, (err, data) => {
-            err ? reject(err) : resolve(data);
-        });
-    });
-};
+import router from "./routes";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -17,35 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(isProduction ? express.static("public") : cors());
 
-app.get("/api/boards", (req, res) => {
-    Query("SELECT * FROM Boards GROUP BY number, name ORDER BY id DESC")
-        .then((data) => res.json(data))
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json({
-                message: `Can't get old boards right now :( (send Andrew "${err.sqlMessage || err.message}")`,
-            });
-        });
-});
-
-app.post("/api/boards", (req, res) => {
-    const { name, board, number } = req.body;
-    if (!name || !board || !number)
-        return res.status(400).json({ message: `Make sure both name and the board are provided!` });
-
-    const rows: string[] = board.split("\n");
-    const rows_are_homogeneous = rows.every((row) => [...row].every((char) => char === row[0]));
-
-    const is_perfect = rows.length === 4 && rows_are_homogeneous;
-
-    Query("INSERT INTO Boards SET ?", [{ name, board, number, is_perfect }])
-        .then(() => res.status(201).json({ message: "Added!" }))
-        .catch((err) => {
-            console.log(err);
-            const message = err.sqlMessage || err.message;
-            res.status(500).json({ message: `Can't add new boards :( (give error code of "${message}" to Andrew)` });
-        });
-});
+app.use("/api/boards", router);
 
 if (isProduction) app.get("*", (req, res) => res.sendFile("index.html", { root: "public" }));
 
