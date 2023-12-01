@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { ILeaderboard } from "../../App";
+import type { LeaderboardProps } from "../../types";
 
-interface LeaderboardProps {
-    leaderBoard: ILeaderboard;
-}
+/**
+ *
+ * @returns A table row counting the amount of perfect games a user has played
+ */
 const Perfect = ({ leaderBoard }: LeaderboardProps) => {
     return (
         <tr>

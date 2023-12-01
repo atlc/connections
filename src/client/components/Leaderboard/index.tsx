@@ -1,13 +1,13 @@
 import React from "react";
-import { ILeaderboard } from "../../App";
 import Active from "./Active";
 import MaxStreak from "./MaxStreak";
 import Perfect from "./Perfect";
+import type { LeaderboardProps } from "../../types";
 
-interface LeaderboardProps {
-    leaderBoard: ILeaderboard;
-}
-
+/**
+ *
+ * @returns A table consolidating all of the leaderboard metrics
+ */
 const Leaderboard = ({ leaderBoard }: LeaderboardProps) => {
     return (
         <div className="mt-2">

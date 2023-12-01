@@ -1,10 +1,10 @@
 import React from "react";
-import { ILeaderboard } from "../../App";
+import type { LeaderboardProps } from "../../types";
 
-interface LeaderboardProps {
-    leaderBoard: ILeaderboard;
-}
-
+/**
+ *
+ * @returns A table row for the actively played days in a row
+ */
 const Active = ({ leaderBoard }: LeaderboardProps) => {
     return (
         <tr>

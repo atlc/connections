@@ -1,9 +1,10 @@
 import React from "react";
-import { ILeaderboard } from "../../App";
+import type { LeaderboardProps } from "../../types";
 
-interface LeaderboardProps {
-    leaderBoard: ILeaderboard;
-}
+/**
+ *
+ * @returns A table row for the highest achieved active days in a row
+ */
 const MaxStreak = ({ leaderBoard }: LeaderboardProps) => {
     return (
         <tr>
