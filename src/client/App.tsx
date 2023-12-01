@@ -193,14 +193,19 @@ const App = () => {
         <div className="container">
             <div className="row justify-content-center">
                 <div className="mt-2 card bg-white p-2">
-                    <h1>
-                        {hadName && !changeName && (
-                            <button onClick={() => setChangeName(true)} className="btn btn-success">
-                                Change name? (currently {name})
+                    <div>
+                        {!board && (
+                            <button onClick={() => setShowAddBoard(!showAddBoard)} className="btn btn-success m-2">
+                                {showAddBoard ? "Hide board input?" : "Show board input?"}
                             </button>
                         )}
-                        {!hadName && "Whose board is this?"}
-                    </h1>
+                        {hadName && !changeName && (
+                            <button onClick={() => setChangeName(true)} className="btn btn-success m-2">
+                                Change name? ({name})
+                            </button>
+                        )}
+                    </div>
+                    <h1>{!hadName && "Whose board is this?"}</h1>
                     {(!hadName || changeName) && (
                         <>
                             <input
@@ -226,11 +231,6 @@ const App = () => {
                                 value={board}
                                 onChange={(e) => setBoard(e.target.value)}
                             />
-                        )}
-                        {!board && (
-                            <button onClick={() => setShowAddBoard(!showAddBoard)} className="btn btn-success">
-                                {showAddBoard ? "Hide the board input?" : "Show the board input?"}
-                            </button>
                         )}
                         {board && (
                             <button onClick={addBoard} className="btn btn-success">
@@ -316,8 +316,8 @@ const App = () => {
                         </h1>
                         {boards[key].map((b) => (
                             <div key={`${b.name}-puzzle-card-${b.id}`} className="my-1 col-6 col-md-4 col-lg-3">
-                                <div className="card shadow-lg">
-                                    <h1 className={`text-center text-muted ${b.is_perfect ? "bg-success-subtle" : ""}`}>
+                                <div className={`card p-1 shadow-lg ${b.is_perfect ? "bg-success-subtle" : ""}`}>
+                                    <h1 className={`text-center ${b.is_perfect ? "text-success" : "text-muted"}`}>
                                         {b.name} {b.is_perfect ? "🌟" : ""}
                                     </h1>
                                     <textarea
