@@ -1,4 +1,4 @@
-import type { RequestHandler } from "express";
+import type { RequestHandler, ErrorRequestHandler } from "express";
 
 export const hasGoodBoard: RequestHandler = (req, res, next) => {
     const { name, board, number } = req.body;
@@ -26,4 +26,10 @@ export const hasGoodBoard: RequestHandler = (req, res, next) => {
     };
 
     next();
+};
+
+export const errorer: ErrorRequestHandler = (err, req, res, next) => {
+    console.log(err);
+    const message = err.sqlMessage || err.message;
+    res.status(500).json({ message: `Can't add or get boards :( (give error code of "${message}" to Andrew)` });
 };

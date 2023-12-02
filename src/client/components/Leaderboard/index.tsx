@@ -3,6 +3,8 @@ import Active from "./Active";
 import MaxStreak from "./MaxStreak";
 import Perfect from "./Perfect";
 import type { LeaderboardProps } from "../../types";
+import Wins from "./Wins";
+import Accuracy from "./Accuracy";
 
 /**
  *
@@ -25,9 +27,11 @@ const Leaderboard = ({ leaderBoard }: LeaderboardProps) => {
                         </tr>
                     </thead>
                     <tbody>
+                        <Wins leaderBoard={leaderBoard} />
+                        <Accuracy leaderBoard={leaderBoard} />
+                        <Perfect leaderBoard={leaderBoard} />
                         <Active leaderBoard={leaderBoard} />
                         <MaxStreak leaderBoard={leaderBoard} />
-                        <Perfect leaderBoard={leaderBoard} />
                     </tbody>
                 </table>
             </div>

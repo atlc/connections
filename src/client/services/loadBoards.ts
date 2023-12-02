@@ -33,11 +33,15 @@ export async function loadPastBoards() {
 
                 if (!isInLeaderboard) {
                     leaders[player] = {
+                        total: 1,
                         active: 1,
                         max: 1,
                         perfect: 0,
+                        wins: 0,
                     };
                 } else {
+                    leaders[player].total += 1;
+
                     if (!playedYesterday) {
                         leaders[player].active = 1;
                     } else {
@@ -51,9 +55,12 @@ export async function loadPastBoards() {
             }
 
             const dayBoard = byDate[day];
-            dayBoard.forEach(({ name, is_perfect }) => {
+            dayBoard.forEach(({ name, is_perfect, is_win }) => {
                 if (is_perfect) {
                     leaders[name].perfect += 1;
+                }
+                if (is_win) {
+                    leaders[name].wins += 1;
                 }
             });
         });

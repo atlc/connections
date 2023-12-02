@@ -12,17 +12,9 @@ const DayHeader = ({ boards, day }: DayHeaderProps) => {
         <h1 className="text-center">
             Puzzle #{day}{" "}
             {boards[day].every((b) => b.is_perfect) ? (
-                <span className="text-success">(Team ACE!)</span>
-            ) : boards[day].every(
-                  (b) =>
-                      b.board
-                          .split("\n")
-                          .map((row) => row.trim())
-                          .filter((row) => [...row].every((char) => char === row[0])).length !== 4
-              ) ? (
-                <span className="text-danger">
-                    <em>(Embarrassing!)</em>
-                </span>
+                <em className="text-success">(Team ACE!)</em>
+            ) : boards[day].every((b) => !b.is_win) ? (
+                <em className="text-danger">(Embarrassing!)</em>
             ) : (
                 ""
             )}

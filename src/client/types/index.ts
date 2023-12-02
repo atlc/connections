@@ -13,6 +13,8 @@ export interface ILeaderboard {
         active: number;
         max: number;
         perfect: number;
+        wins: number;
+        total: number;
     };
 }
 

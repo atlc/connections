@@ -1,11 +1,13 @@
-import express, { ErrorRequestHandler } from "express";
+import express from "express";
 import Boards, { BoardSubmission } from "./db";
-import { hasGoodBoard } from "./controllers";
+import { hasGoodBoard, errorer } from "./controllers";
 
 const router = express.Router();
 
 router.get("/", (req, res, next) => {
-    Boards.getAll().then(res.json).catch(next);
+    Boards.getAll()
+        .then((data) => res.json(data))
+        .catch(next);
 });
 
 router.post("/", hasGoodBoard, (req, res, next) => {
@@ -16,12 +18,6 @@ router.post("/", hasGoodBoard, (req, res, next) => {
         .catch(next);
 });
 
-const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-    console.log(err);
-    const message = err.sqlMessage || err.message;
-    res.status(500).json({ message: `Can't add or get boards :( (give error code of "${message}" to Andrew)` });
-};
-
-router.use(errorHandler);
+router.use(errorer);
 
 export default router;
