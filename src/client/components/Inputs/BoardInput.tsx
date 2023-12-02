@@ -31,6 +31,7 @@ const BoardInput = (props: BoardInputProps) => {
                             }}
                             placeholder="Paste your board in here exactly as it comes from the NYT"
                             rows={6}
+                            style={{ resize: "none" }}
                             className="form-control"
                             value={board}
                             onChange={(e) => setBoard(e.target.value)}

@@ -16,12 +16,14 @@ const Leaderboard = ({ leaderBoard }: LeaderboardProps) => {
         <div className="mt-2">
             <h1>Leaderboard:</h1>
             <div className="table-responsive">
-                <table className="table table-sm table-striped table-secondary">
+                <table className="table table-sm table-striped table-secondary table-bordered">
                     <thead>
                         <tr>
-                            <th scope="col">Place</th>
+                            <th className="text-center" scope="col">
+                                Place
+                            </th>
                             {Object.keys(leaderBoard).map((_, i) => (
-                                <th key={`leaderboard-th-place-${i}`} scope="col">
+                                <th className="text-center" key={`leaderboard-th-place-${i}`} scope="col">
                                     #{i + 1}
                                 </th>
                             ))}

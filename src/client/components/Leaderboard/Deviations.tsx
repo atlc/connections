@@ -41,7 +41,7 @@ const Deviations = ({ leaderBoard }: LeaderboardProps) => {
     return (
         <tr>
             <th scope="row">
-                Acc Deviation (μ={mean.toFixed(1)}, σ={populationStandardDeviation.toFixed(2)}):
+                Accuracy Deviation (μ={mean.toFixed(1)}, σ={populationStandardDeviation.toFixed(2)}):
             </th>
             {withSD
                 .sort(([prevName, { sd }], [newName, { sd: newDeviation }]) => newDeviation - sd)

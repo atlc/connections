@@ -3,5 +3,18 @@ $info: #b0c4ef;
 $warning: #f9df6d;
 $secondary: #ba81c5;
 
+$table-cell-padding-y: .5rem;
+$table-cell-padding-x: .5rem;
+$table-cell-padding-y-sm: .25rem;
+$table-cell-padding-x-sm: .10rem;
+
 // Bootstrap Import
 @import '~bootstrap/scss/bootstrap.scss';
+
+th {
+  font-size: 0.9rem;
+}
+
+td {
+  font-size: 0.9rem;
+}
