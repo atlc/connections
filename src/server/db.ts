@@ -8,10 +8,17 @@ export interface BoardSubmission {
     is_perfect: boolean;
 }
 
+const pool = mysql.createPool(process.env.DB_URL!);
+
 const Query = (sql: string, vals: unknown[] = []) => {
     return new Promise((resolve, reject) => {
-        mysql.createPool(process.env.DB_URL!).query(sql, vals, (err, data) => {
-            err ? reject(err) : resolve(data);
+        pool.getConnection((err, connection) => {
+            if (err) return reject(err);
+
+            connection.query(sql, vals, (err, data) => {
+                connection.release();
+                err ? reject(err) : resolve(data);
+            });
         });
     });
 };
