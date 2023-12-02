@@ -8,14 +8,25 @@ export interface IBoard {
     is_perfect: boolean;
 }
 
+export interface LeaderboardEntry {
+    active: number;
+    max: number;
+    perfect: number;
+    wins: number;
+    total: number;
+}
+
+export type LeaderboardEntryWithName = [string, LeaderboardEntryExpanded];
+
+export interface LeaderboardEntryExpanded extends LeaderboardEntry {
+    accuracy: number;
+    deviation: number;
+    sd: number;
+    difference: number;
+}
+
 export interface ILeaderboard {
-    [name: string]: {
-        active: number;
-        max: number;
-        perfect: number;
-        wins: number;
-        total: number;
-    };
+    [name: string]: LeaderboardEntry;
 }
 
 export interface DateSortedBoards {

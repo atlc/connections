@@ -1,5 +1,5 @@
 import React from "react";
-import type { LeaderboardProps } from "../../types";
+import type { LeaderboardEntryExpanded, LeaderboardProps } from "../../types";
 
 /**
  *
@@ -16,17 +16,7 @@ const Accuracy = ({ leaderBoard }: LeaderboardProps) => {
                         ...lb[1],
                         accuracy: lb[1].wins / lb[1].total,
                     };
-                    return [name, { ...vals }] as [
-                        string,
-                        {
-                            active: number;
-                            max: number;
-                            perfect: number;
-                            wins: number;
-                            total: number;
-                            accuracy: number;
-                        }
-                    ];
+                    return [name, { ...vals }] as [string, LeaderboardEntryExpanded];
                 })
                 .sort(([prevName, { accuracy }], [newName, { accuracy: newAccuracy }]) => newAccuracy - accuracy)
                 .map(([name, { accuracy }]) => (
