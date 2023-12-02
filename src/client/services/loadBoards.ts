@@ -1,5 +1,6 @@
 import Swal from "sweetalert2";
 import type { IBoard, ILeaderboard } from "../types";
+import { getDateAttributes } from "../utilities/parsers";
 
 export async function loadPastBoards() {
     try {
@@ -9,7 +10,7 @@ export async function loadPastBoards() {
         if (!res.ok) throw new Error(data.message);
 
         const byDate: { [key: string]: IBoard[] } = {};
-        (data as IBoard[]).forEach((b) => {
+        getDateAttributes(data).forEach((b) => {
             if (!byDate[b.number]) {
                 byDate[b.number] = [b];
             } else {
@@ -38,6 +39,8 @@ export async function loadPastBoards() {
                         max: 1,
                         perfect: 0,
                         wins: 0,
+                        gunslingers: 0,
+                        times: [],
                     };
                 } else {
                     leaders[player].total += 1;
@@ -55,7 +58,18 @@ export async function loadPastBoards() {
             }
 
             const dayBoard = byDate[day];
-            dayBoard.forEach(({ name, is_perfect, is_win }) => {
+            dayBoard.forEach(({ name, number, is_perfect, is_win, is_gunslinger, time_delta }) => {
+                const first_timestamp_day = 172;
+                const parsedDay = parseInt(number);
+
+                if (parsedDay && parsedDay > first_timestamp_day) {
+                    leaders[name].times.push(time_delta);
+                }
+
+                if (is_gunslinger) {
+                    leaders[name].gunslingers += 1;
+                }
+
                 if (is_perfect) {
                     leaders[name].perfect += 1;
                 }

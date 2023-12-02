@@ -6,6 +6,8 @@ import type { LeaderboardProps } from "../../types";
 import Wins from "./Wins";
 import Accuracy from "./Accuracy";
 import Deviations from "./Deviations";
+import Gunslinger from "./Gunslinger";
+import AverageTime from "./AverageTime";
 
 /**
  *
@@ -34,6 +36,8 @@ const Leaderboard = ({ leaderBoard }: LeaderboardProps) => {
                         <Accuracy leaderBoard={leaderBoard} />
                         <Deviations leaderBoard={leaderBoard} />
                         <Perfect leaderBoard={leaderBoard} />
+                        <Gunslinger leaderBoard={leaderBoard} />
+                        <AverageTime leaderBoard={leaderBoard} />
                         <Active leaderBoard={leaderBoard} />
                         <MaxStreak leaderBoard={leaderBoard} />
                     </tbody>

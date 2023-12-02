@@ -22,7 +22,6 @@ const Deviations = ({ leaderBoard }: LeaderboardProps) => {
     const withIndividualDeviations = boardWithAccuracy.map(([name, lbe]) => {
         const difference = lbe.accuracy - mean;
         const deviation = Math.pow(difference, 2);
-        console.log({ acc: lbe.accuracy, mean, difference, deviation });
         return [name, { ...lbe, deviation, difference }] as LeaderboardEntryWithName;
     });
 
@@ -34,9 +33,6 @@ const Deviations = ({ leaderBoard }: LeaderboardProps) => {
         const sd = (lbe.accuracy - mean) / populationStandardDeviation;
         return [n, { ...lbe, sd }] as LeaderboardEntryWithName;
     });
-
-    console.log({ sum, mean, deviationSum, variance, populationStandardDeviation });
-    console.log(withSD);
 
     return (
         <tr>

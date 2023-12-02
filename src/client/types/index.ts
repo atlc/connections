@@ -1,11 +1,17 @@
-export interface IBoard {
+export interface IBoard extends BoardTimeAttributes {
     id: number;
     name: string;
     board: string;
     number: string;
-    created_at: Date;
+    created_at: string;
     is_win: boolean;
     is_perfect: boolean;
+}
+
+export interface BoardTimeAttributes {
+    is_gunslinger: boolean;
+    timestamp: string;
+    time_delta: string;
 }
 
 export interface LeaderboardEntry {
@@ -14,7 +20,18 @@ export interface LeaderboardEntry {
     perfect: number;
     wins: number;
     total: number;
+    gunslingers: number;
+    times: string[];
 }
+
+export interface LeaderboardWithAverage extends LeaderboardEntry {
+    average: {
+        seconds: number;
+        formatted: string;
+    };
+}
+
+export type LeaderboardEntryWithAverage = [string, LeaderboardWithAverage];
 
 export type LeaderboardEntryWithName = [string, LeaderboardEntryExpanded];
 
