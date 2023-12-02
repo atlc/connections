@@ -7,7 +7,7 @@ import { unsanitize } from "../../utilities/parsers";
  * @returns A card consisting of an individual user's submission for the day
  */
 const PuzzleCard = (props: BoardCardProps) => {
-    const { name, id, is_perfect, board, number, timestamp, time_delta, is_gunslinger } = props.board;
+    const { name, id, is_perfect, board, number, timestamp, is_gunslinger } = props.board;
     const first_timestamp_day = 172;
     const is_timestamped = parseInt(number) && parseInt(number) > first_timestamp_day;
 

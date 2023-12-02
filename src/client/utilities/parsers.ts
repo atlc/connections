@@ -26,7 +26,7 @@ export const getDateAttributes = (boards: IBoard[]) => {
 
         if (parsedDay && parsedDay > first_timestamp_day) {
             const dayBoards = boards.filter((b) => parseInt(b.number) === parsedDay);
-            const utc_offset = 6;
+            const utc_offset = process.env.NODE_ENV === "production" ? 0 : 6;
             const date = new Date(board["created_at"]);
             date.setHours(date.getHours() - utc_offset);
             const timestamp = date.toLocaleTimeString();
