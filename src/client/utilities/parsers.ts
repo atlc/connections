@@ -26,15 +26,22 @@ export const getDateAttributes = (boards: IBoard[]) => {
 
         if (parsedDay && parsedDay > first_timestamp_day) {
             const dayBoards = boards.filter((b) => parseInt(b.number) === parsedDay);
-            const utc_offset = process.env.NODE_ENV === "production" ? 0 : 6;
+            const is_production = process.env.NODE_ENV === "production";
+
+            const utc_offset = is_production ? 0 : -6;
             const date = new Date(board["created_at"]);
-            date.setHours(date.getHours() - utc_offset);
+            date.setHours(date.getHours() + utc_offset);
+
+            console.log({ is_production, utc_offset, date });
+
             const timestamp = date.toLocaleTimeString();
             const [time, meridiem] = timestamp.split(" ") as [string, "AM" | "PM"];
             const [hh, mm, ss] = time.split(":");
 
             const parsedHours = parseInt(hh);
-            const hours = parsedHours === 12 && meridiem === "AM" ? 0 : parsedHours;
+            const is_midnight = parsedHours === 12 && meridiem === "AM";
+            const is_after_noon = meridiem === "PM";
+            const hours = is_midnight ? 0 : is_after_noon ? parsedHours + 12 : parsedHours;
 
             board.is_gunslinger = dayBoards.reverse()[0].id === b.id;
             board.timestamp = timestamp;
