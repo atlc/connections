@@ -1,141 +1,72 @@
-# TypeScript React Express ESBuild Boilerplate
+# Connections!
 
-Welcome to the TypeScript React Express ESBuild boilerplate, tailored for budding developers learning to craft MERN CRUD applications. However, this boilerplate is also ideal for anyone aiming to switch gears and utilize ESBuild over the conventional webpack.
+### Purpose
 
-# TypeScript React Express ESBuild Boilerplate
+This application is built for keeping track of my family's scoreboards for the [NYT's 'Connections' game](https://www.nytimes.com/games/connections), storing a long history of each individual player's board and providing analytical statistics and leaderboards for various performance metrics.
 
--   [Overview](#overview)
--   [Features](#features)
--   [Getting Started](#getting-started)
-    -   [1. Clone the Repository](#1-clone-the-repository)
-    -   [2. Install Dependencies](#2-install-dependencies)
-    -   [3. Running in Development](#3-running-in-development)
--   [Directory Structure](#directory-structure)
-    -   [Top-Level Overview](#top-level-overview)
--   [YouTube Companion Videos](#youtube-companion-videos)
--   [Why ESBuild over Webpack?](#why-esbuild-over-webpack)
--   [Contributions](#contributions)
+Some of the metrics include finding total wins, each player's winning accuracy, calculating the mean and standard deviation of the cumulative playerbase accuracy, calculating each individual player's standard deviations, amount of perfect boards, amount of times to be the first respondent, the average time it takes to play, amount of days actively played, and the overall max streak of amount of days actively played.
 
-## Overview
+To keep everything as streamlined as possible for my non-tech-adjacent family, user input is taken directly from the copy-pasted output from the New York Times and parsed and sanitized to strip and organize the data.
 
-This boilerplate is designed with simplicity and efficiency in mind. It leverages ESBuild, known for its speed and ease of configuration, to bundle your JavaScript and styles. It provides a structured starting point for both client and server development using popular technologies like React, Express, and TypeScript.
+Below are some screenshots showing a brief overview of the functionality.
 
-## Features
+### Desktop screenshots
 
--   **React**: For crafting intuitive UIs.
--   **Express**: A minimalist web framework for building the server-side.
--   **TypeScript**: Bringing strong typing to JavaScript, enhancing maintainability and developer experience.
--   **ESBuild**: A revolutionary fast JavaScript bundler and minifier.
--   **Bootstrap SASS**: Empower your projects with the world's most popular CSS framework, now in its SASS variant. Tailor designs seamlessly with variables and mixins.
+<details open>
+<summary>Submissions from multiple days of boards</summary>
 
-    _Note_: While this boilerplate uses Bootstrap SASS, the flexibility of ESBuild means it's straightforward to switch plugins. For instance, you can easily incorporate PostCSS with TailwindCSS or any other preferred styling solution.
+![Submissions of two days of boards in a roughly widescreen aspect ratio](./media/Boards_Wide.png "Widescreen Board Submissions")
 
-## Getting Started
+</details>
 
-1. **Clone the Repository**
+<details open>
+<summary>Leaderboard metrics</summary>
 
-    ```sh
-    git clone https://github.com/covalence-io/ts-react-express-esbuild.git
-    cd ts-react-express-esbuild
-    ```
+![A leaderboard in a roughly widescreen aspect ratio keeping track of various scores and metrics](./media/Leaderboard_Wide.png "Widescreen Leaderboard")
 
-2. **Install Dependencies**
+</details>
 
-    ```sh
-    npm install
-    ```
+### Mobile screenshots
 
-3. **Running in Development**
-   Start both client and server in development mode:
-    ```sh
-    npm run dev
-    ```
+<details>
+<summary>Submissions from multiple days of boards</summary>
 
-## Directory Structure
+![Submissions of two days of boards in a roughly portrait aspect ratio](./media/Boards_Responsive.png "Mobile/Responsive Board Submissions")
 
-Understanding the project's structure is crucial for efficiently navigating and utilizing this boilerplate. Here's a detailed breakdown of the directory tree:
+</details>
 
-```
-dist/
-├─ server.js
-esbuild/
-├─ client.dev.mjs
-├─ server.dev.mjs
-node_modules/
-public/
-├─ static/
-│  ├─ bundle.js
-├─ index.html
-src/
-├─ client/
-│  ├─ styles/
-│  │  ├─ app.scss
-│  ├─ App.tsx
-│  ├─ index.tsx
-│  ├─ tsconfig.json
-├─ server/
-│  ├─ server.ts
-│  ├─ tsconfig.json
-.gitignore
-nodemon.json
-package-lock.json
-package.json
-README.md
-tsconfig.json
-```
+<details>
+<summary>Leaderboard metrics</summary>
 
-### Top-Level Overview
+![A leaderboard in a roughly portrait aspect ratio keeping track of various scores and metrics](./media/Leaderboard_Responsive.png "Responsive Leaderboard")
 
--   **`dist/`**: The output directory where your server-side TypeScript files get compiled to JavaScript.
+</details>
 
-    -   `server.js`: The compiled server-side entry point. **Note**: This file and the entire `dist/` directory are not tracked on GitHub as they represent compiled production code.
+<br />
+<br />
 
--   **`esbuild/`**: Houses configuration files for the ESBuild bundler.
+# Tech Details
 
-    -   `client.dev.mjs`: ESBuild configuration for client-side development.
-    -   `server.dev.mjs`: ESBuild configuration for server-side development.
+### Stack
 
--   **`node_modules/`**: Standard directory for all installed npm packages.
+##### Client
 
--   **`public/`**: Serves static files and the main `index.html` for your React application.
+Just a good bit of Typescript & React. This was initially meant more as a PoC, so styling is just some quick and dirty Bootstrap.
 
-    -   `static/`: Contains bundled output files for the client side.
-        -   `app.js`: Bundled JavaScript for the client. **Note**: The bundled `app.js` is not tracked on GitHub as it is a dynamically generated file based on the source code.
-    -   `index.html`: The main HTML file that serves as a shell for your React app.
+##### Server
 
--   **`src/`**: The core of your application's source code, both client-side and server-side.
+The server is a pretty minimalist Typescript+Node express server. For the persistent data, all data is stored long-term via MySQL, but there is a Redis cache serving the data to optimize response time. Upon a new board being created, the cache is updated.
 
-    -   `client/`: Contains all client-side React components and styles.
-        -   `styles/`: Directory for all your SCSS files.
-            -   `app.scss`: Main style file for your application.
-        -   `App.tsx`: The main React component for your application.
-        -   `index.tsx`: Client-side entry point.
-        -   `tsconfig.json`: TypeScript configuration specific to the client side.
-    -   `server/`: Houses server-side logic using Express.
-        -   `server.ts`: Entry point for the server.
-        -   `tsconfig.json`: TypeScript configuration specific to the server side.
+### Roadmap
 
--   **`.gitignore`**: Lists files and directories that should not be tracked by Git. This includes the compiled outputs like those in the `dist/` directory and dynamically generated bundles like `app.js`.
+##### Data architecture/state management
 
--   **`nodemon.json`**: Configuration for Nodemon, a utility that monitors changes in your server code and automatically restarts the server.
+Since this left concept territory pretty quickly, my initial data architecture has migrated several times over with the desire to add in additional capabilities. As a result, there's a good bit of state creep, and being structured with many smaller components, there's a lot of prop drilling going on. Some global state management on the client side is close to becoming a necessity, and currently it seems like [Zustand](https://zustand-demo.pmnd.rs/) might be the better fit for my use cases over Redux/RTK or something more granular like Jotai. Before that, I'd also like to offload some of the calculations back to the server.
 
--   **`package-lock.json`**: Automatically generated file that describes the exact tree that was generated in `node_modules` as a result of running `npm install`.
+##### Styling
 
--   **`package.json`**: Lists package dependencies and contains various metadata about the project, like scripts.
+I'll likely be migrating the UI to using Tailwind at some point, especially given that everything is capable of using responsive breakpoints.
 
--   **`README.md`**: This very file, offering a guide to the project.
+##### Operations/interactivity
 
--   **`tsconfig.json`**: The root TypeScript configuration file.
-
-## YouTube Companion Videos
-
-I coded this boilerplate out across a few YouTube videos if you want the from-scratch-to-end-product building of this repo. Watch and subscribe!
-[https://youtu.be/3tEUVpyRYTg](https://youtu.be/3tEUVpyRYTg)
-
-## Why ESBuild over Webpack?
-
-Webpack has been the go-to bundler for many projects over the years. However, ESBuild brings in significant speed improvements due to its Go-based architecture. This makes the build and development processes much faster, enhancing developer experience, especially in larger projects. This boilerplate is meant to introduce developers to this efficient tool and encourage exploration beyond traditional tools.
-
-## Contributions
-
-Feel free to raise issues, send pull requests, or provide feedback to improve this boilerplate. We welcome collaboration and suggestions to make this a more effective learning tool for our students and the community.
+A major downstream plan is instead of having this one singular board instance, is to allow the creation of multiple shared instances so that I can make this app available for public usage.
