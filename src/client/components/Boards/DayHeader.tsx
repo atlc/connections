@@ -11,7 +11,7 @@ const DayHeader = ({ boards, day }: DayHeaderProps) => {
     return (
         <h1 className="text-center">
             Puzzle #{day}{" "}
-            {boards[day].every((b) => b.is_perfect) ? (
+            {boards[day].length > 1 && boards[day].every((b) => b.is_perfect) ? (
                 <em className="text-success">(Team ACE!)</em>
             ) : boards[day].every((b) => !b.is_win) ? (
                 <em className="text-danger">(Embarrassing!)</em>

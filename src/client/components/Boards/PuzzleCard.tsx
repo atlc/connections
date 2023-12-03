@@ -15,11 +15,11 @@ const PuzzleCard = (props: BoardCardProps) => {
         <>
             <div key={`${name}-puzzle-card-${id}`} className="my-1 col-6 col-md-4 col-lg-3">
                 <div className={`card p-1 shadow-lg ${is_perfect ? "bg-success-subtle" : ""}`}>
-                    <h1 className={`text-center ${is_perfect ? "text-success" : "text-muted"}`}>
-                        <span className="emoji">{is_perfect ? "🌟" : ""}</span>
-                        <span className="emoji">{is_gunslinger ? "⚡️" : ""}</span>
+                    <h3 className={`text-center ${is_perfect ? "text-success" : "text-muted"}`}>
                         {name}
-                    </h1>
+                        <span className="emoji">{is_perfect ? "🌠" : ""}</span>
+                        <span className="emoji">{is_gunslinger ? "⏱️" : ""}</span>
+                    </h3>
                     {is_timestamped && <span className="text-muted text-end time">{timestamp}</span>}
 
                     <textarea style={{ resize: "none" }} className="form-control text-center" rows={7} readOnly>
