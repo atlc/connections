@@ -14,10 +14,9 @@ async function setBoardsCache(boards: any) {
 
 async function getBoardsCache() {
     await client.connect();
-    const boards = (await client.get(BOARDS_KEY)) || "";
-    console.log({ message: "getting boards from cache", boards });
+    const boards = await client.get(BOARDS_KEY);
     await client.disconnect();
-    return JSON.parse(boards);
+    return boards ? JSON.parse(boards) : null;
 }
 
 export default {

@@ -5,18 +5,17 @@ import Redis from "../db/redis";
 
 const router = express.Router();
 
-// TODO Remove this and associated logs
-const NEWLINES = "\n\n\n\n\n";
-
 router.get("/", async (req, res, next) => {
     try {
-        const mysqlBoards = await Boards.getAll();
-        await Redis.boards.set(mysqlBoards);
         const boards = await Redis.boards.get();
-        console.log(`${NEWLINES}Confirming boards are being accessed through Redis cache`);
-        console.log({ boards });
-        console.log(NEWLINES);
-        res.json(boards);
+
+        if (!boards) {
+            const mysqlBoards = await Boards.getAll();
+            await Redis.boards.set(mysqlBoards);
+            res.json(mysqlBoards);
+        } else {
+            res.json(boards);
+        }
     } catch (error) {
         next(error);
     }
