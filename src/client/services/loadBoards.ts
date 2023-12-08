@@ -1,6 +1,21 @@
 import Swal from "sweetalert2";
-import type { IBoard, ILeaderboard } from "../types";
-import { getDateAttributes } from "../utilities/parsers";
+import type { IBoard, ILeaderboard, LeaderboardEntry, LeaderboardEntryExpanded } from "../types";
+import { getDateAttributes, getTimeAverage } from "../utilities/parsers";
+
+interface StandardDeviation {
+    mean: number;
+    population: number;
+    user: number;
+}
+
+type Extensible<T> = { [key: string]: LeaderboardEntry & { [K in keyof T]: T[K] } };
+type LeadersWithAccuracy = Extensible<{ accuracy: number }>;
+type LeadersWithAverageTime = Extensible<{ accuracy: number; average: { seconds: number; formatted: string } }>;
+type LeadersWithStandardDeviation = Extensible<{
+    accuracy: number;
+    average: { seconds: number; formatted: string };
+    deviation: StandardDeviation;
+}>;
 
 export async function loadPastBoards() {
     try {
@@ -10,6 +25,7 @@ export async function loadPastBoards() {
         if (!res.ok) throw new Error(data.message);
 
         const byDate: { [key: string]: IBoard[] } = {};
+
         getDateAttributes(data).forEach((b) => {
             if (!byDate[b.number]) {
                 byDate[b.number] = [b];
@@ -18,15 +34,14 @@ export async function loadPastBoards() {
             }
         });
 
-        const leaders: ILeaderboard = {};
+        const leaders: Extensible<{}> = {};
         const days = Object.keys(byDate).reverse();
 
         days.forEach((day, i) => {
             const isNotFirstDay = i > 0;
-            const dayPlayers = [...new Set(byDate[day].map((dayPlayer) => dayPlayer.name))];
-            const previousDayPlayers = isNotFirstDay
-                ? [...new Set(byDate[days[i - 1]].map((dayPlayer) => dayPlayer.name))]
-                : [];
+
+            const dayPlayers = byDate[day].map((dayPlayer) => dayPlayer.name);
+            const previousDayPlayers = isNotFirstDay ? byDate[days[i - 1]].map((dayPlayer) => dayPlayer.name) : [];
 
             for (const player of dayPlayers) {
                 const isInLeaderboard = leaders[player];
@@ -79,7 +94,9 @@ export async function loadPastBoards() {
             });
         });
 
-        return { leaders, byDate };
+        const leadersWithAllStats = calcAllStats(leaders);
+
+        return { leaders: leadersWithAllStats, byDate };
     } catch (error) {
         Swal.fire({
             title: "Oh no :(",
@@ -91,4 +108,77 @@ export async function loadPastBoards() {
         });
         throw new Error((error as Error).message);
     }
+}
+
+function calcAllStats(leaders: ILeaderboard) {
+    return calculateAccuracy(leaders);
+}
+
+function calculateAccuracy(leaders: ILeaderboard) {
+    const leadersWithAccuracy: LeadersWithAccuracy = {};
+
+    Object.keys(leaders).forEach((name) => {
+        const { total, wins } = leaders[name];
+        const accuracy = total / wins;
+
+        leadersWithAccuracy[name] = {
+            ...leaders[name],
+            accuracy,
+        };
+    });
+    return calculateAverageTimes(leadersWithAccuracy);
+}
+
+function calculateAverageTimes(leaders: LeadersWithAccuracy) {
+    const leadersWithAverageTime: LeadersWithAverageTime = {};
+
+    Object.keys(leaders).forEach((player) => {
+        const average = getTimeAverage(leaders[player].times);
+
+        leadersWithAverageTime[player] = {
+            ...leaders[player],
+            average,
+        };
+    });
+    return calculateDeviations(leadersWithAverageTime);
+}
+
+function calculateDeviations(leaders: LeadersWithAverageTime) {
+    const LENGTH = Object.keys(leaders).length;
+    const leadersWithDeviations: LeadersWithStandardDeviation = {};
+
+    let sum = 0;
+
+    Object.keys(leaders).forEach((player) => {
+        sum += leaders[player].accuracy;
+    });
+
+    const mean = sum / length;
+    let populationDeviationSum = 0;
+
+    Object.keys(leaders).forEach((player) => {
+        const difference = leaders[player].accuracy - mean;
+        const variance = Math.pow(difference, 2);
+        const deviation = Math.sqrt(variance - mean);
+
+        populationDeviationSum += deviation;
+    });
+
+    const populationVariance = populationDeviationSum / LENGTH;
+    const populationSD = Math.sqrt(populationVariance);
+
+    Object.keys(leaders).forEach((player) => {
+        const deviation = (leaders[player].accuracy - mean) / populationSD;
+
+        leadersWithDeviations[player] = {
+            ...leaders[player],
+            deviation: {
+                user: deviation,
+                mean,
+                population: populationSD,
+            },
+        };
+    });
+
+    return leadersWithDeviations;
 }

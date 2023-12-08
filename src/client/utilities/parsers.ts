@@ -32,8 +32,6 @@ export const getDateAttributes = (boards: IBoard[]) => {
             const date = new Date(board["created_at"]);
             date.setHours(date.getHours() + utc_offset);
 
-            console.log({ is_production, utc_offset, date });
-
             const timestamp = date.toLocaleTimeString();
             const [time, meridiem] = timestamp.split(" ") as [string, "AM" | "PM"];
             const [hh, mm, ss] = time.split(":");
