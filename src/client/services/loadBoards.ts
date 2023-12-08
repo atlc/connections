@@ -19,7 +19,9 @@ type LeadersWithStandardDeviation = Extensible<{
 
 export async function loadPastBoards() {
     try {
-        const res = await fetch("/api/boards");
+        const URL_PREFACE = process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
+
+        const res = await fetch(`${URL_PREFACE}/api/boards`);
         const data = await res.json();
 
         if (!res.ok) throw new Error(data.message);
@@ -119,7 +121,7 @@ function calculateAccuracy(leaders: ILeaderboard) {
 
     Object.keys(leaders).forEach((name) => {
         const { total, wins } = leaders[name];
-        const accuracy = wins / total;
+        const accuracy = (wins / total) * 100;
 
         leadersWithAccuracy[name] = {
             ...leaders[name],
@@ -150,7 +152,7 @@ function calculateDeviations(leaders: LeadersWithAverageTime) {
     let sum = 0;
 
     Object.keys(leaders).forEach((player) => {
-        sum += leaders[player].accuracy * 100;
+        sum += leaders[player].accuracy;
     });
 
     const mean = sum / LENGTH;
@@ -158,8 +160,7 @@ function calculateDeviations(leaders: LeadersWithAverageTime) {
 
     Object.keys(leaders).forEach((player) => {
         const difference = leaders[player].accuracy - mean;
-        const variance = Math.pow(difference, 2);
-        const deviation = Math.sqrt(variance - mean);
+        const deviation = Math.pow(difference, 2);
 
         populationDeviationSum += deviation;
     });
