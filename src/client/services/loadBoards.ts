@@ -153,7 +153,7 @@ function calculateDeviations(leaders: LeadersWithAverageTime) {
         sum += leaders[player].accuracy * 100;
     });
 
-    const mean = sum / length;
+    const mean = sum / LENGTH;
     let populationDeviationSum = 0;
 
     Object.keys(leaders).forEach((player) => {
