@@ -119,7 +119,7 @@ function calculateAccuracy(leaders: ILeaderboard) {
 
     Object.keys(leaders).forEach((name) => {
         const { total, wins } = leaders[name];
-        const accuracy = wins / total;
+        const accuracy = (wins / total) * 100;
 
         leadersWithAccuracy[name] = {
             ...leaders[name],
@@ -150,10 +150,10 @@ function calculateDeviations(leaders: LeadersWithAverageTime) {
     let sum = 0;
 
     Object.keys(leaders).forEach((player) => {
-        sum += leaders[player].accuracy * 100;
+        sum += leaders[player].accuracy;
     });
 
-    const mean = sum / length;
+    const mean = sum / LENGTH;
     let populationDeviationSum = 0;
 
     Object.keys(leaders).forEach((player) => {
