@@ -1,5 +1,6 @@
 import React from "react";
 import type { LeaderboardProps } from "../../types";
+import { sortByColumn } from "../../utilities/sorters";
 
 /**
  *
@@ -9,13 +10,11 @@ const Perfect = ({ leaderBoard }: LeaderboardProps) => {
     return (
         <tr>
             <th scope="row">Perfect boards:</th>
-            {Object.entries(leaderBoard)
-                .sort(([prevName, { perfect }], [newName, { perfect: newPerfect }]) => newPerfect - perfect)
-                .map(([name, { perfect }]) => (
-                    <td>
-                        {name.trim()}: <strong>{perfect}</strong>
-                    </td>
-                ))}
+            {sortByColumn(leaderBoard, "perfect").map(([name, { perfect }]) => (
+                <td key={`${name}-perfect-leaderboard-rating`}>
+                    {name.trim()}: <strong>{perfect}</strong>
+                </td>
+            ))}
         </tr>
     );
 };

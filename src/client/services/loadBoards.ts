@@ -1,21 +1,6 @@
 import Swal from "sweetalert2";
-import type { IBoard, ILeaderboard, LeaderboardEntry, LeaderboardEntryExpanded } from "../types";
+import type { IBoard, FullLeaderboard } from "../types";
 import { getDateAttributes, getTimeAverage } from "../utilities/parsers";
-
-interface StandardDeviation {
-    mean: number;
-    population: number;
-    user: number;
-}
-
-type Extensible<T> = { [key: string]: LeaderboardEntry & { [K in keyof T]: T[K] } };
-type LeadersWithAccuracy = Extensible<{ accuracy: number }>;
-type LeadersWithAverageTime = Extensible<{ accuracy: number; average: { seconds: number; formatted: string } }>;
-type LeadersWithStandardDeviation = Extensible<{
-    accuracy: number;
-    average: { seconds: number; formatted: string };
-    deviation: StandardDeviation;
-}>;
 
 export async function loadPastBoards() {
     try {
@@ -36,7 +21,7 @@ export async function loadPastBoards() {
             }
         });
 
-        const leaders: Extensible<{}> = {};
+        const leaders: FullLeaderboard = {};
         const days = Object.keys(byDate).reverse();
 
         days.forEach((day, i) => {
@@ -58,6 +43,9 @@ export async function loadPastBoards() {
                         wins: 0,
                         gunslingers: 0,
                         times: [],
+                        accuracy: 0,
+                        average: { seconds: 0, formatted: "" },
+                        deviation: { mean: 0, population: 0, user: 0 },
                     };
                 } else {
                     leaders[player].total += 1;
@@ -112,12 +100,12 @@ export async function loadPastBoards() {
     }
 }
 
-function calcAllStats(leaders: ILeaderboard) {
+function calcAllStats(leaders: FullLeaderboard) {
     return calculateAccuracy(leaders);
 }
 
-function calculateAccuracy(leaders: ILeaderboard) {
-    const leadersWithAccuracy: LeadersWithAccuracy = {};
+function calculateAccuracy(leaders: FullLeaderboard) {
+    const leadersWithAccuracy: FullLeaderboard = {};
 
     Object.keys(leaders).forEach((name) => {
         const { total, wins } = leaders[name];
@@ -131,8 +119,8 @@ function calculateAccuracy(leaders: ILeaderboard) {
     return calculateAverageTimes(leadersWithAccuracy);
 }
 
-function calculateAverageTimes(leaders: LeadersWithAccuracy) {
-    const leadersWithAverageTime: LeadersWithAverageTime = {};
+function calculateAverageTimes(leaders: FullLeaderboard) {
+    const leadersWithAverageTime: FullLeaderboard = {};
 
     Object.keys(leaders).forEach((player) => {
         const average = getTimeAverage(leaders[player].times);
@@ -145,9 +133,9 @@ function calculateAverageTimes(leaders: LeadersWithAccuracy) {
     return calculateDeviations(leadersWithAverageTime);
 }
 
-function calculateDeviations(leaders: LeadersWithAverageTime) {
+function calculateDeviations(leaders: FullLeaderboard) {
     const LENGTH = Object.keys(leaders).length;
-    const leadersWithDeviations: LeadersWithStandardDeviation = {};
+    const leadersWithDeviations: FullLeaderboard = {};
 
     let sum = 0;
 

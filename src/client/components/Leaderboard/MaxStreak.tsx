@@ -1,5 +1,6 @@
 import React from "react";
 import type { LeaderboardProps } from "../../types";
+import { sortByColumn } from "../../utilities/sorters";
 
 /**
  *
@@ -9,13 +10,11 @@ const MaxStreak = ({ leaderBoard }: LeaderboardProps) => {
     return (
         <tr>
             <th scope="row">Max streak:</th>
-            {Object.entries(leaderBoard)
-                .sort(([prevName, { max }], [newName, { max: newMax }]) => newMax - max)
-                .map(([name, { max }]) => (
-                    <td>
-                        {name.trim()}: <strong>{max}</strong>
-                    </td>
-                ))}
+            {sortByColumn(leaderBoard, "max").map(([name, { max }]) => (
+                <td key={`${name}-max-leaderboard-rating`}>
+                    {name.trim()}: <strong>{max}</strong>
+                </td>
+            ))}
         </tr>
     );
 };

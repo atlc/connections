@@ -22,48 +22,28 @@ export interface LeaderboardEntry {
     total: number;
     gunslingers: number;
     times: string[];
-}
-
-export interface LeaderboardWithAverage extends LeaderboardEntry {
-    average: {
-        seconds: number;
-        formatted: string;
+    accuracy: number;
+    average: { seconds: number; formatted: string };
+    deviation: {
+        mean: number;
+        population: number;
+        user: number;
     };
 }
 
-export type LeaderboardEntryWithAverage = [string, LeaderboardWithAverage];
-
-export type LeaderboardEntryWithName = [string, LeaderboardEntryExpanded];
-
-export interface LeaderboardEntryExpanded extends LeaderboardEntry {
-    accuracy: number;
-    deviation: number;
-    sd: number;
-    difference: number;
-}
-
-export interface ILeaderboard {
-    [name: string]: LeaderboardEntry;
-}
+export type FullLeaderboard = { [key: string]: LeaderboardEntry };
 
 export interface DateSortedBoards {
     [puzzleNum: string]: IBoard[];
 }
 
-export interface LoadBoardRes {
-    leaders: ILeaderboard;
-    byDate: {
-        [key: string]: IBoard[];
-    };
-}
-
 export interface LeaderboardProps {
-    leaderBoard: ILeaderboard;
+    leaderBoard: FullLeaderboard;
 }
 
 export interface InputsProps {
     updateBoards: React.Dispatch<React.SetStateAction<DateSortedBoards>>;
-    updateLeaderboard: React.Dispatch<React.SetStateAction<ILeaderboard>>;
+    updateLeaderboard: React.Dispatch<React.SetStateAction<FullLeaderboard>>;
 }
 
 export interface NameInputProps {
@@ -76,7 +56,7 @@ export interface NameInputProps {
     hadName: boolean;
     changeName: boolean;
     setChangeName: React.Dispatch<React.SetStateAction<boolean>>;
-    updateLeaderboard: React.Dispatch<React.SetStateAction<ILeaderboard>>;
+    updateLeaderboard: React.Dispatch<React.SetStateAction<FullLeaderboard>>;
     updateBoards: React.Dispatch<React.SetStateAction<DateSortedBoards>>;
 }
 
@@ -87,7 +67,7 @@ export interface BoardInputProps {
     setShowAddBoard: React.Dispatch<React.SetStateAction<boolean>>;
     board: string;
     setBoard: React.Dispatch<React.SetStateAction<string>>;
-    updateLeaderboard: React.Dispatch<React.SetStateAction<ILeaderboard>>;
+    updateLeaderboard: React.Dispatch<React.SetStateAction<FullLeaderboard>>;
     updateBoards: React.Dispatch<React.SetStateAction<DateSortedBoards>>;
 }
 

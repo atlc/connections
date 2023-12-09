@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import Leaderboard from "./components/Leaderboard";
 import Boards from "./components/Boards";
 import Inputs from "./components/Inputs";
-import type { DateSortedBoards, ILeaderboard } from "./types";
+import type { DateSortedBoards, FullLeaderboard } from "./types";
 
 const App = () => {
     const [boards, setBoards] = useState<DateSortedBoards>({});
-    const [leaderBoard, setLeaderboard] = useState<ILeaderboard>({});
+    const [leaderBoard, setLeaderboard] = useState<FullLeaderboard>({});
 
     return (
         <div className="container">

@@ -1,6 +1,6 @@
 import React from "react";
 import { addBoard } from "../../services/addBoard";
-import type { BoardInputProps, LoadBoardRes } from "../../types";
+import type { BoardInputProps, FullLeaderboard, IBoard } from "../../types";
 
 /**
  *
@@ -10,7 +10,12 @@ const BoardInput = (props: BoardInputProps) => {
     const { name, hadName, showAddBoard, setShowAddBoard, board, setBoard, updateBoards, updateLeaderboard } = props;
 
     const add = async () => {
-        const { leaders, byDate } = (await addBoard({ board, name })) as LoadBoardRes;
+        const { leaders, byDate } = (await addBoard({ board, name })) as {
+            leaders: FullLeaderboard;
+            byDate: {
+                [key: string]: IBoard[];
+            };
+        };
 
         updateLeaderboard(leaders);
         updateBoards(byDate);

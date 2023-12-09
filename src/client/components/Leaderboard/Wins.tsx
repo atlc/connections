@@ -1,5 +1,6 @@
 import React from "react";
 import type { LeaderboardProps } from "../../types";
+import { sortByColumn } from "../../utilities/sorters";
 
 /**
  *
@@ -9,13 +10,11 @@ const Wins = ({ leaderBoard }: LeaderboardProps) => {
     return (
         <tr>
             <th scope="row">Total Wins:</th>
-            {Object.entries(leaderBoard)
-                .sort(([prevName, { wins }], [newName, { wins: newWins }]) => newWins - wins)
-                .map(([name, { wins, total }]) => (
-                    <td>
-                        {name.trim()}: <strong>{wins}</strong>/{total}
-                    </td>
-                ))}
+            {sortByColumn(leaderBoard, "wins").map(([name, { wins, total }]) => (
+                <td key={`${name}-wins-leaderboard-rating`}>
+                    {name.trim()}: <strong>{wins}</strong>/{total}
+                </td>
+            ))}
         </tr>
     );
 };
