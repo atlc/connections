@@ -10,8 +10,8 @@ const Deviations = ({ leaderBoard }: LeaderboardProps) => {
     return (
         <tr>
             <th scope="row">
-                Accuracy Deviation (μ={leaderBoard[Object.keys(leaderBoard)[0]].deviation.mean.toFixed(1)}, σ=
-                {leaderBoard[Object.keys(leaderBoard)[0]].deviation.population.toFixed(2)}):
+                Accuracy Deviation (μ={leaderBoard[Object.keys(leaderBoard)[0]]?.deviation.mean.toFixed(1)}, σ=
+                {leaderBoard[Object.keys(leaderBoard)[0]]?.deviation.population.toFixed(2)}):
             </th>
             {sortByColumn(leaderBoard, "deviation", "user").map(([name, { deviation }]) => (
                 <td key={`${name}-deviation-leaderboard-rating`}>
