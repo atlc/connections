@@ -44,7 +44,7 @@ export async function loadPastBoards() {
                         gunslingers: 0,
                         times: [],
                         accuracy: 0,
-                        fastest: "",
+                        fastest: { seconds: 0, formatted: "" },
                         average: { seconds: 0, formatted: "" },
                         deviation: { mean: 0, population: 0, user: 0 },
                     };

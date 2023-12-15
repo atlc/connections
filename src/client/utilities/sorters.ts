@@ -2,14 +2,15 @@ import { FullLeaderboard, LeaderboardEntry } from "../types";
 
 type Deviation = LeaderboardEntry["deviation"];
 type Average = LeaderboardEntry["average"];
+type Fastest = LeaderboardEntry["fastest"];
 
 type Parent = Deviation | Average;
-type Child = keyof Deviation | keyof Average;
+type Child = keyof Deviation | keyof Average | keyof Fastest;
 
 export function sortByColumn(
     leaderBoard: FullLeaderboard,
     column: keyof LeaderboardEntry,
-    childColumn?: Child,
+    childColumn: Child | null,
     isReversed: boolean = false
 ) {
     if (!childColumn) {

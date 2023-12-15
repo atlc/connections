@@ -10,9 +10,9 @@ const BestTime = ({ leaderBoard }: LeaderboardProps) => {
     return (
         <tr>
             <th scope="row">Best Time:</th>
-            {sortByColumn(leaderBoard, "fastest").map(([name, { fastest }]) => (
+            {sortByColumn(leaderBoard, "fastest", "seconds", true).map(([name, { fastest }]) => (
                 <td key={`${name}-fastest-time-leaderboard-rating`}>
-                    {name.trim()}: <strong>{fastest}</strong>
+                    {name.trim()}: <strong>{fastest.formatted}</strong>
                 </td>
             ))}
         </tr>

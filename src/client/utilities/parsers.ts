@@ -102,5 +102,8 @@ export const getBestTime = (formattedTimes: string[]) => {
         if (seconds < bestTime) bestTime = seconds;
     }
 
-    return secondsToFormattedHHMMSS(bestTime);
+    const formatted = secondsToFormattedHHMMSS(bestTime);
+    const seconds = bestTime;
+
+    return { formatted, seconds };
 };
