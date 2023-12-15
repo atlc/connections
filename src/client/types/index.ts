@@ -23,6 +23,7 @@ export interface LeaderboardEntry {
     gunslingers: number;
     times: string[];
     accuracy: number;
+    fastest: string;
     average: { seconds: number; formatted: string };
     deviation: {
         mean: number;

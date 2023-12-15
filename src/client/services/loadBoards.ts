@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 import type { IBoard, FullLeaderboard } from "../types";
-import { getDateAttributes, getTimeAverage } from "../utilities/parsers";
+import { getBestTime, getDateAttributes, getTimeAverage } from "../utilities/parsers";
 
 export async function loadPastBoards() {
     try {
@@ -44,6 +44,7 @@ export async function loadPastBoards() {
                         gunslingers: 0,
                         times: [],
                         accuracy: 0,
+                        fastest: "",
                         average: { seconds: 0, formatted: "" },
                         deviation: { mean: 0, population: 0, user: 0 },
                     };
@@ -116,17 +117,19 @@ function calculateAccuracy(leaders: FullLeaderboard) {
             accuracy,
         };
     });
-    return calculateAverageTimes(leadersWithAccuracy);
+    return calculateTimes(leadersWithAccuracy);
 }
 
-function calculateAverageTimes(leaders: FullLeaderboard) {
+function calculateTimes(leaders: FullLeaderboard) {
     const leadersWithAverageTime: FullLeaderboard = {};
 
     Object.keys(leaders).forEach((player) => {
         const average = getTimeAverage(leaders[player].times);
+        const fastest = getBestTime(leaders[player].times);
 
         leadersWithAverageTime[player] = {
             ...leaders[player],
+            fastest,
             average,
         };
     });

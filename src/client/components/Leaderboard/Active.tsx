@@ -9,12 +9,12 @@ import { sortByColumn } from "../../utilities/sorters";
 const Active = ({ leaderBoard }: LeaderboardProps) => {
     return (
         <tr>
-            <th scope="row">Active streak:</th>
-            {sortByColumn(leaderBoard, "active").map(([name, { active }]) => (
+            <th scope="row">Active streak: (under construction; max streak logic still works)</th>
+            {/* {sortByColumn(leaderBoard, "active").map(([name, { active }]) => (
                 <td key={`${name}-active-leaderboard-rating`}>
                     {name.trim()}: <strong>{active}</strong>
                 </td>
-            ))}
+            ))} */}
         </tr>
     );
 };

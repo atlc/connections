@@ -8,6 +8,7 @@ import Accuracy from "./Accuracy";
 import Deviations from "./Deviations";
 import Gunslinger from "./Gunslinger";
 import AverageTime from "./AverageTime";
+import BestTime from "./BestTime";
 
 /**
  *
@@ -38,6 +39,7 @@ const Leaderboard = ({ leaderBoard }: LeaderboardProps) => {
                         <Perfect leaderBoard={leaderBoard} />
                         <Gunslinger leaderBoard={leaderBoard} />
                         <AverageTime leaderBoard={leaderBoard} />
+                        <BestTime leaderBoard={leaderBoard} />
                         <Active leaderBoard={leaderBoard} />
                         <MaxStreak leaderBoard={leaderBoard} />
                     </tbody>
