@@ -10,9 +10,9 @@ const MaxStreak = ({ leaderBoard }: LeaderboardProps) => {
     return (
         <tr>
             <th scope="row">Max streak:</th>
-            {sortByColumn(leaderBoard, "max").map(([name, { max }]) => (
+            {sortByColumn({ leaderBoard, column: "max" }).map(([name, { max, wins }]) => (
                 <td key={`${name}-max-leaderboard-rating`}>
-                    {name.trim()}: <strong>{max}</strong>
+                    {name.trim()}: <strong>{max}</strong> {max === wins && <em>(Perfect attendance!)</em>}
                 </td>
             ))}
         </tr>

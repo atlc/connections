@@ -15,6 +15,7 @@ export interface BoardTimeAttributes {
 }
 
 export interface LeaderboardEntry {
+    streaks: number[];
     active: number;
     max: number;
     perfect: number;

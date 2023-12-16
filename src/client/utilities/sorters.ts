@@ -7,12 +7,14 @@ type Fastest = LeaderboardEntry["fastest"];
 type Parent = Deviation | Average;
 type Child = keyof Deviation | keyof Average | keyof Fastest;
 
-export function sortByColumn(
-    leaderBoard: FullLeaderboard,
-    column: keyof LeaderboardEntry,
-    childColumn: Child | null,
-    isReversed: boolean = false
-) {
+interface SorterArgs {
+    leaderBoard: FullLeaderboard;
+    column: keyof LeaderboardEntry;
+    childColumn?: Child | null;
+    isReversed?: boolean;
+}
+
+export function sortByColumn({ leaderBoard, column, childColumn, isReversed }: SorterArgs) {
     if (!childColumn) {
         const sorted = Object.entries(leaderBoard).sort(
             ([prevName, prevBoard], [newName, newBoard]) => (newBoard[column] as any) - (prevBoard[column] as any)

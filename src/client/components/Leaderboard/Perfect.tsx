@@ -10,7 +10,7 @@ const Perfect = ({ leaderBoard }: LeaderboardProps) => {
     return (
         <tr>
             <th scope="row">Perfect boards:</th>
-            {sortByColumn(leaderBoard, "perfect").map(([name, { perfect }]) => (
+            {sortByColumn({ leaderBoard, column: "perfect" }).map(([name, { perfect }]) => (
                 <td key={`${name}-perfect-leaderboard-rating`}>
                     {name.trim()}: <strong>{perfect}</strong>
                 </td>

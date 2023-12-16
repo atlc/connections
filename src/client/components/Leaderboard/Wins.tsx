@@ -10,7 +10,7 @@ const Wins = ({ leaderBoard }: LeaderboardProps) => {
     return (
         <tr>
             <th scope="row">Total Wins:</th>
-            {sortByColumn(leaderBoard, "wins").map(([name, { wins, total }]) => (
+            {sortByColumn({ leaderBoard, column: "wins" }).map(([name, { wins, total }]) => (
                 <td key={`${name}-wins-leaderboard-rating`}>
                     {name.trim()}: <strong>{wins}</strong>/{total}
                 </td>

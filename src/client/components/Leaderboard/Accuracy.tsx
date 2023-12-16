@@ -10,7 +10,7 @@ const Accuracy = ({ leaderBoard }: LeaderboardProps) => {
     return (
         <tr>
             <th scope="row">Accuracy:</th>
-            {sortByColumn(leaderBoard, "accuracy").map(([name, { accuracy }]) => (
+            {sortByColumn({ leaderBoard, column: "accuracy" }).map(([name, { accuracy }]) => (
                 <td key={`${name}-accuracy-leaderboard-rating`}>
                     {name.trim()}: <strong>{accuracy.toFixed(1)}%</strong>
                 </td>

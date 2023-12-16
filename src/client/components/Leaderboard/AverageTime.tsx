@@ -10,11 +10,13 @@ const AverageTime = ({ leaderBoard }: LeaderboardProps) => {
     return (
         <tr>
             <th scope="row">Average Time:</th>
-            {sortByColumn(leaderBoard, "average", "seconds", true).map(([name, { average }]) => (
-                <td key={`${name}-average-time-leaderboard-rating`}>
-                    {name.trim()}: <strong>{average.formatted}</strong>
-                </td>
-            ))}
+            {sortByColumn({ leaderBoard, column: "average", childColumn: "seconds", isReversed: true }).map(
+                ([name, { average }]) => (
+                    <td key={`${name}-average-time-leaderboard-rating`}>
+                        {name.trim()}: <strong>{average.formatted}</strong>
+                    </td>
+                )
+            )}
         </tr>
     );
 };

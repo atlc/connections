@@ -37,6 +37,7 @@ export async function loadPastBoards() {
                 if (!isInLeaderboard) {
                     leaders[player] = {
                         total: 1,
+                        streaks: [],
                         active: 1,
                         max: 1,
                         perfect: 0,
@@ -52,6 +53,9 @@ export async function loadPastBoards() {
                     leaders[player].total += 1;
 
                     if (!playedYesterday) {
+                        console.log(`${player} did not play yesterday (day ${days[i - 1]}), active reset to 1`);
+                        console.log(`Pushing streak`);
+                        leaders[player].streaks.push(leaders[player].active);
                         leaders[player].active = 1;
                     } else {
                         leaders[player].active += 1;
