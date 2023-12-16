@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import type { IBoard, FullLeaderboard } from "../types";
+import type { IBoard, FullLeaderboard, LeaderboardEntry } from "../types";
 import { getBestTime, getDateAttributes, getTimeAverage } from "../utilities/parsers";
 
 export async function loadPastBoards() {
@@ -22,52 +22,51 @@ export async function loadPastBoards() {
         });
 
         const leaders: FullLeaderboard = {};
-        const days = Object.keys(byDate).reverse();
+        const days = Object.keys(byDate);
+        const allPlayers = [...new Set(days.map((day) => byDate[day].map((board) => board.name)).flat())];
+
+        const initialPlayerState: LeaderboardEntry = {
+            total: 0,
+            perfect: 0,
+            wins: 0,
+            gunslingers: 0,
+            times: [],
+            accuracy: 0,
+            active: { active: 0, max: 0, stopped: 0 },
+            fastest: { seconds: 0, formatted: "" },
+            average: { seconds: 0, formatted: "" },
+            deviation: { mean: 0, population: 0, user: 0 },
+        };
+
+        for (const player of allPlayers) {
+            leaders[player] = JSON.parse(JSON.stringify(initialPlayerState));
+        }
 
         days.forEach((day, i) => {
-            const isNotFirstDay = i > 0;
-
             const dayPlayers = byDate[day].map((dayPlayer) => dayPlayer.name);
-            const previousDayPlayers = isNotFirstDay ? byDate[days[i - 1]].map((dayPlayer) => dayPlayer.name) : [];
-
-            for (const player of dayPlayers) {
-                const isInLeaderboard = leaders[player];
-                const playedYesterday = isNotFirstDay && previousDayPlayers.includes(player);
-
-                if (!isInLeaderboard) {
-                    leaders[player] = {
-                        total: 1,
-                        streaks: [],
-                        active: 1,
-                        max: 1,
-                        perfect: 0,
-                        wins: 0,
-                        gunslingers: 0,
-                        times: [],
-                        accuracy: 0,
-                        fastest: { seconds: 0, formatted: "" },
-                        average: { seconds: 0, formatted: "" },
-                        deviation: { mean: 0, population: 0, user: 0 },
-                    };
-                } else {
+            for (const player of allPlayers) {
+                if (dayPlayers.includes(player)) {
+                    console.log({ player, day, active: JSON.stringify(leaders[player].active) });
+                    // Increment the total days played and the active streak
                     leaders[player].total += 1;
+                    leaders[player].active.active += 1;
 
-                    if (!playedYesterday) {
-                        console.log(`${player} did not play yesterday (day ${days[i - 1]}), active reset to 1`);
-                        console.log(`Pushing streak`);
-                        leaders[player].streaks.push(leaders[player].active);
-                        leaders[player].active = 1;
-                    } else {
-                        leaders[player].active += 1;
-
-                        if (leaders[player].active >= leaders[player].max) {
-                            leaders[player].max = leaders[player].active;
-                        }
+                    // If the active streak meets or exceeds the max, update max to the active streak
+                    if (leaders[player].active.active >= leaders[player].active.max) {
+                        leaders[player].active.max = leaders[player].active.active;
                     }
+                } else {
+                    // If the player has played before and *the* active streak has not been frozen
+                    if (leaders[player].active.active && !leaders[player].active.stopped) {
+                        leaders[player].active.stopped = leaders[player].active.active;
+                    }
+                    // If the player did not play today, reset the active streak
+                    leaders[player].active.active = 0;
                 }
             }
 
             const dayBoard = byDate[day];
+
             dayBoard.forEach(({ name, number, is_perfect, is_win, is_gunslinger, time_delta }) => {
                 const first_timestamp_day = 172;
                 const parsedDay = parseInt(number);

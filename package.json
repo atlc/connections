@@ -11,7 +11,7 @@
         "build:client": "node esbuild-config/client.prod.mjs",
         "build:server": "node esbuild-config/server.prod.mjs",
         "build": "npm-run-all --sequential build:*",
-        "start": "node dist/server.js",
+        "start": "node --env-file=.env dist/server.js",
         "deploy": "git push && git push heroku main"
     },
     "keywords": [

@@ -3,9 +3,9 @@ import { FullLeaderboard, LeaderboardEntry } from "../types";
 type Deviation = LeaderboardEntry["deviation"];
 type Average = LeaderboardEntry["average"];
 type Fastest = LeaderboardEntry["fastest"];
+type Active = LeaderboardEntry["active"];
 
-type Parent = Deviation | Average;
-type Child = keyof Deviation | keyof Average | keyof Fastest;
+type Child = keyof Deviation | keyof Average | keyof Fastest | keyof Active;
 
 interface SorterArgs {
     leaderBoard: FullLeaderboard;

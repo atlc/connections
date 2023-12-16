@@ -15,22 +15,16 @@ export interface BoardTimeAttributes {
 }
 
 export interface LeaderboardEntry {
-    streaks: number[];
-    active: number;
-    max: number;
     perfect: number;
     wins: number;
     total: number;
     gunslingers: number;
     times: string[];
     accuracy: number;
+    active: { max: number; active: number; stopped: number };
     fastest: { seconds: number; formatted: string };
     average: { seconds: number; formatted: string };
-    deviation: {
-        mean: number;
-        population: number;
-        user: number;
-    };
+    deviation: { mean: number; population: number; user: number };
 }
 
 export type FullLeaderboard = { [key: string]: LeaderboardEntry };

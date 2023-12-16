@@ -29,11 +29,6 @@ const BoardInput = (props: BoardInputProps) => {
                 <div className="card my-1">
                     {showAddBoard && (
                         <textarea
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                    add();
-                                }
-                            }}
                             placeholder="Paste your board in here exactly as it comes from the NYT"
                             rows={6}
                             style={{ resize: "none" }}

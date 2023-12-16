@@ -22,9 +22,13 @@ const PuzzleCard = (props: BoardCardProps) => {
                     </h3>
                     {is_timestamped && <span className="text-muted text-end time">{timestamp}</span>}
 
-                    <textarea style={{ resize: "none" }} className="form-control text-center" rows={7} readOnly>
-                        {unsanitize(board)}
-                    </textarea>
+                    <textarea
+                        value={unsanitize(board)}
+                        style={{ resize: "none" }}
+                        className="form-control text-center"
+                        rows={7}
+                        readOnly
+                    />
                 </div>
             </div>
         </>
