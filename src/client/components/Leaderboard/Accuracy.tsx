@@ -1,12 +1,14 @@
 import React from "react";
-import type { LeaderboardProps } from "../../types";
 import { sortByColumn } from "../../utilities/sorters";
-
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
 /**
  *
  * @returns A table row ranking users by their accuracy
  */
-const Accuracy = ({ leaderBoard }: LeaderboardProps) => {
+const Accuracy = () => {
+    const leaderBoard = useSelector((state: RootState) => state.leaderboard.leaderboard);
+
     return (
         <tr>
             <th scope="row">Accuracy:</th>

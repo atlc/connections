@@ -1,13 +1,14 @@
 import React from "react";
-import type { LeaderboardProps } from "../../types";
 import { sortByColumn } from "../../utilities/sorters";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
 
 /**
  *
  * @returns A table row for the actively played days in a row
  */
-const Active = ({ leaderBoard }: LeaderboardProps) => {
-    console.log({ leaderBoard });
+const Active = () => {
+    const leaderBoard = useSelector((state: RootState) => state.leaderboard.leaderboard);
 
     return (
         <tr>

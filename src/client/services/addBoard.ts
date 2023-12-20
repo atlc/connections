@@ -23,9 +23,7 @@ export async function addBoard({ board, name }: { board: string; name: string })
 
         if (!res.ok) throw new Error(data.message);
 
-        const { leaders, byDate } = await loadPastBoards();
-
-        return { leaders, byDate };
+        await loadPastBoards();
     } catch (error) {
         Swal.fire({
             title: "Oh no :(",

@@ -1,6 +1,9 @@
 import Swal from "sweetalert2";
-import type { IBoard, FullLeaderboard, LeaderboardEntry } from "../types";
-import { getBestTime, getDateAttributes, getTimeAverage } from "../utilities/parsers";
+import type { FullLeaderboard, LeaderboardEntry } from "../types";
+import { getBestTime, getTimeAverage } from "../utilities/parsers";
+import { store } from "../store";
+import { set_from_api } from "../store/boards/boardsSlice";
+import { set_leaderboard } from "../store/leaderboard/leaderboardSlice";
 
 export async function loadPastBoards() {
     try {
@@ -11,15 +14,9 @@ export async function loadPastBoards() {
 
         if (!res.ok) throw new Error(data.message);
 
-        const byDate: { [key: string]: IBoard[] } = {};
-
-        getDateAttributes(data).forEach((b) => {
-            if (!byDate[b.number]) {
-                byDate[b.number] = [b];
-            } else {
-                byDate[b.number].push(b);
-            }
-        });
+        store.dispatch(set_from_api(data));
+        const allStore = store.getState().boards;
+        const byDate = allStore.boards;
 
         const leaders: FullLeaderboard = {};
         const days = Object.keys(byDate);
@@ -47,7 +44,6 @@ export async function loadPastBoards() {
             const dayPlayers = byDate[day].map((dayPlayer) => dayPlayer.name);
             for (const player of allPlayers) {
                 if (dayPlayers.includes(player)) {
-                    console.log({ player, day, active: JSON.stringify(leaders[player].active) });
                     // Increment the total days played and the active streak
                     leaders[player].total += 1;
                     leaders[player].active.active += 1;
@@ -83,6 +79,7 @@ export async function loadPastBoards() {
                 if (is_perfect) {
                     leaders[name].perfect += 1;
                 }
+
                 if (is_win) {
                     leaders[name].wins += 1;
                 }
@@ -91,7 +88,7 @@ export async function loadPastBoards() {
 
         const leadersWithAllStats = calcAllStats(leaders);
 
-        return { leaders: leadersWithAllStats, byDate };
+        store.dispatch(set_leaderboard(leadersWithAllStats));
     } catch (error) {
         Swal.fire({
             title: "Oh no :(",

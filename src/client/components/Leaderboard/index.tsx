@@ -9,13 +9,16 @@ import Gunslinger from "./Gunslinger";
 import AverageTime from "./AverageTime";
 import BestTime from "./BestTime";
 import PerfectAccuracy from "./PerfectAccuracy";
-import type { LeaderboardProps } from "../../types";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
 
 /**
  *
  * @returns A table consolidating all of the leaderboard metrics
  */
-const Leaderboard = ({ leaderBoard }: LeaderboardProps) => {
+const Leaderboard = () => {
+    const leaderBoard = useSelector((state: RootState) => state.leaderboard.leaderboard);
+
     return (
         <div className="mt-2">
             <h1>Leaderboard:</h1>
@@ -34,16 +37,16 @@ const Leaderboard = ({ leaderBoard }: LeaderboardProps) => {
                         </tr>
                     </thead>
                     <tbody>
-                        <Wins leaderBoard={leaderBoard} />
-                        <Accuracy leaderBoard={leaderBoard} />
-                        <Deviations leaderBoard={leaderBoard} />
-                        <Perfect leaderBoard={leaderBoard} />
-                        <PerfectAccuracy leaderBoard={leaderBoard} />
-                        <Gunslinger leaderBoard={leaderBoard} />
-                        <AverageTime leaderBoard={leaderBoard} />
-                        <BestTime leaderBoard={leaderBoard} />
-                        <Active leaderBoard={leaderBoard} />
-                        <MaxStreak leaderBoard={leaderBoard} />
+                        <Wins />
+                        <Accuracy />
+                        <Deviations />
+                        <Perfect />
+                        <PerfectAccuracy />
+                        <Gunslinger />
+                        <AverageTime />
+                        <BestTime />
+                        <Active />
+                        <MaxStreak />
                     </tbody>
                 </table>
             </div>

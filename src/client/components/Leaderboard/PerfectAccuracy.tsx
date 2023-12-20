@@ -1,12 +1,15 @@
 import React from "react";
-import type { LeaderboardProps } from "../../types";
 import { sortByColumn } from "../../utilities/sorters";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
 
 /**
  *
  * @returns A table row sorting the highest to lowest percentage of perfect boards
  */
-const PerfectAccuracy = ({ leaderBoard }: LeaderboardProps) => {
+const PerfectAccuracy = () => {
+    const leaderBoard = useSelector((state: RootState) => state.leaderboard.leaderboard);
+
     return (
         <tr>
             <th scope="row">Perfect ratio:</th>

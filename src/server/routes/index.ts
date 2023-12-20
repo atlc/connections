@@ -7,15 +7,19 @@ const router = express.Router();
 
 router.get("/", async (req, res, next) => {
     try {
-        const boards = await Redis.boards.get();
+        const is_production = process.env.NODE_ENV === "production";
 
-        if (!boards) {
-            const mysqlBoards = await Boards.getAll();
-            await Redis.boards.set(mysqlBoards);
-            res.json(mysqlBoards);
-        } else {
-            res.json(boards);
+        // If we're in production, pull board from the Redis cache
+        let boards = is_production ? await Redis.boards.get() : await Boards.getAll();
+
+        // If we're in production and the cache has not been loaded yet (IE after a new deploy),
+        // fallback to pulling from MySQL and hydrate the Redis cache
+        if (is_production && !boards) {
+            boards = await Boards.getAll();
+            await Redis.boards.set(boards);
         }
+
+        res.json(boards);
     } catch (error) {
         next(error);
     }

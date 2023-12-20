@@ -1,4 +1,4 @@
-export interface IBoard extends BoardTimeAttributes {
+export interface IBoard {
     id: number;
     name: string;
     board: string;
@@ -6,9 +6,6 @@ export interface IBoard extends BoardTimeAttributes {
     created_at: string;
     is_win: boolean;
     is_perfect: boolean;
-}
-
-export interface BoardTimeAttributes {
     is_gunslinger: boolean;
     timestamp: string;
     time_delta: string;
@@ -34,49 +31,10 @@ export interface DateSortedBoards {
     [puzzleNum: string]: IBoard[];
 }
 
-export interface LeaderboardProps {
-    leaderBoard: FullLeaderboard;
-}
-
-export interface InputsProps {
-    updateBoards: React.Dispatch<React.SetStateAction<DateSortedBoards>>;
-    updateLeaderboard: React.Dispatch<React.SetStateAction<FullLeaderboard>>;
-}
-
-export interface NameInputProps {
-    name: string;
-    setName: React.Dispatch<React.SetStateAction<string>>;
-    setHadName: React.Dispatch<React.SetStateAction<boolean>>;
-    board: string;
-    showAddBoard: boolean;
-    setShowAddBoard: React.Dispatch<React.SetStateAction<boolean>>;
-    hadName: boolean;
-    changeName: boolean;
-    setChangeName: React.Dispatch<React.SetStateAction<boolean>>;
-    updateLeaderboard: React.Dispatch<React.SetStateAction<FullLeaderboard>>;
-    updateBoards: React.Dispatch<React.SetStateAction<DateSortedBoards>>;
-}
-
-export interface BoardInputProps {
-    name: string;
-    hadName: boolean;
-    showAddBoard: boolean;
-    setShowAddBoard: React.Dispatch<React.SetStateAction<boolean>>;
-    board: string;
-    setBoard: React.Dispatch<React.SetStateAction<string>>;
-    updateLeaderboard: React.Dispatch<React.SetStateAction<FullLeaderboard>>;
-    updateBoards: React.Dispatch<React.SetStateAction<DateSortedBoards>>;
-}
-
-export interface BoardsProps {
-    boards: DateSortedBoards;
-}
-
 export interface BoardCardProps {
     board: IBoard;
 }
 
 export interface DayHeaderProps {
-    boards: DateSortedBoards;
     day: string;
 }

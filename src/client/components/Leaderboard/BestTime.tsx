@@ -1,12 +1,15 @@
 import React from "react";
-import type { LeaderboardProps } from "../../types";
 import { sortByColumn } from "../../utilities/sorters";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
 
 /**
  *
  * @returns A table row ranking the fastest board submission time for each user
  */
-const BestTime = ({ leaderBoard }: LeaderboardProps) => {
+const BestTime = () => {
+    const leaderBoard = useSelector((state: RootState) => state.leaderboard.leaderboard);
+
     return (
         <tr>
             <th scope="row">Best Time:</th>

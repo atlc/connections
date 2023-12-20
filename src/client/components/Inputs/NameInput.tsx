@@ -1,44 +1,47 @@
 import React, { useEffect } from "react";
 import { loadPastBoards } from "../../services/loadBoards";
-import type { NameInputProps } from "../../types";
+import { RootState } from "../../store";
+import { useSelector, useDispatch } from "react-redux";
+import { setShowAddBoard, setName, setHadName, setShouldChangeName } from "../../store/inputs/inputsSlice";
 
 /**
  *
  * @returns An input to set or update a user's name, or set it from localStorage if previously played
  */
-const NameInput = (props: NameInputProps) => {
-    const { name, setName, setHadName, board, showAddBoard, setShowAddBoard } = props;
-    const { hadName, changeName, setChangeName, updateBoards, updateLeaderboard } = props;
+const NameInput = () => {
+    const dispatch = useDispatch();
+    const board = useSelector((state: RootState) => state.inputs.board);
+    const showAddBoard = useSelector((state: RootState) => state.inputs.showAddBoard);
+    const name = useSelector((state: RootState) => state.inputs.name);
+    const hadName = useSelector((state: RootState) => state.inputs.hadName);
+    const changeName = useSelector((state: RootState) => state.inputs.changeName);
 
     useEffect(() => {
         const lsName = localStorage.getItem("name");
         if (lsName) {
-            setName(lsName);
-            setHadName(true);
+            dispatch(setName(lsName));
+            dispatch(setHadName(true));
         }
 
-        loadPastBoards().then(({ leaders, byDate }) => {
-            updateLeaderboard(leaders);
-            updateBoards(byDate);
-        });
+        loadPastBoards();
     }, []);
 
     function handleNameChange() {
         localStorage.setItem("name", name);
-        setHadName(true);
-        setChangeName(false);
+        dispatch(setHadName(true));
+        dispatch(setShouldChangeName(false));
     }
 
     return (
         <div className="mt-2 card bg-white p-2">
             <div>
                 {!board && (
-                    <button onClick={() => setShowAddBoard(!showAddBoard)} className="btn btn-secondary m-2">
+                    <button onClick={() => dispatch(setShowAddBoard(!showAddBoard))} className="btn btn-secondary m-2">
                         {showAddBoard ? "Hide board input?" : "Show board input?"}
                     </button>
                 )}
                 {hadName && !changeName && (
-                    <button onClick={() => setChangeName(true)} className="btn btn-secondary m-2">
+                    <button onClick={() => dispatch(setShouldChangeName(true))} className="btn btn-secondary m-2">
                         Change name? ({name})
                     </button>
                 )}
@@ -53,7 +56,7 @@ const NameInput = (props: NameInputProps) => {
                             }
                         }}
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => dispatch(setName(e.target.value))}
                         type="text"
                         placeholder="Ken Jennings"
                         className="form-control"

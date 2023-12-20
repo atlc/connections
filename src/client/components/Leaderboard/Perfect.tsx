@@ -1,12 +1,15 @@
 import React from "react";
-import type { LeaderboardProps } from "../../types";
 import { sortByColumn } from "../../utilities/sorters";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
 
 /**
  *
  * @returns A table row counting the amount of perfect games a user has played
  */
-const Perfect = ({ leaderBoard }: LeaderboardProps) => {
+const Perfect = () => {
+    const leaderBoard = useSelector((state: RootState) => state.leaderboard.leaderboard);
+
     return (
         <tr>
             <th scope="row">Perfect boards:</th>

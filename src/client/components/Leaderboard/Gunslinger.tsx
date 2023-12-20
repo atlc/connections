@@ -1,12 +1,15 @@
 import React from "react";
-import type { LeaderboardProps } from "../../types";
 import { sortByColumn } from "../../utilities/sorters";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
 
 /**
  *
  * @returns A table row counting the amount of times a user was the first to submit
  */
-const Gunslingers = ({ leaderBoard }: LeaderboardProps) => {
+const Gunslingers = () => {
+    const leaderBoard = useSelector((state: RootState) => state.leaderboard.leaderboard);
+
     return (
         <tr>
             <th scope="row">Gunslingers:</th>
