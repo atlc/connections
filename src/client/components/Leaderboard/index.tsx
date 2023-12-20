@@ -2,13 +2,14 @@ import React from "react";
 import Active from "./Active";
 import MaxStreak from "./MaxStreak";
 import Perfect from "./Perfect";
-import type { LeaderboardProps } from "../../types";
 import Wins from "./Wins";
 import Accuracy from "./Accuracy";
 import Deviations from "./Deviations";
 import Gunslinger from "./Gunslinger";
 import AverageTime from "./AverageTime";
 import BestTime from "./BestTime";
+import PerfectAccuracy from "./PerfectAccuracy";
+import type { LeaderboardProps } from "../../types";
 
 /**
  *
@@ -37,6 +38,7 @@ const Leaderboard = ({ leaderBoard }: LeaderboardProps) => {
                         <Accuracy leaderBoard={leaderBoard} />
                         <Deviations leaderBoard={leaderBoard} />
                         <Perfect leaderBoard={leaderBoard} />
+                        <PerfectAccuracy leaderBoard={leaderBoard} />
                         <Gunslinger leaderBoard={leaderBoard} />
                         <AverageTime leaderBoard={leaderBoard} />
                         <BestTime leaderBoard={leaderBoard} />

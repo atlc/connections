@@ -16,6 +16,7 @@ export interface BoardTimeAttributes {
 
 export interface LeaderboardEntry {
     perfect: number;
+    perfect_accuracy: number;
     wins: number;
     total: number;
     gunslingers: number;

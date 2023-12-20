@@ -28,10 +28,11 @@ export async function loadPastBoards() {
         const initialPlayerState: LeaderboardEntry = {
             total: 0,
             perfect: 0,
+            perfect_accuracy: 0,
+            accuracy: 0,
             wins: 0,
             gunslingers: 0,
             times: [],
-            accuracy: 0,
             active: { active: 0, max: 0, stopped: 0 },
             fastest: { seconds: 0, formatted: "" },
             average: { seconds: 0, formatted: "" },
@@ -112,12 +113,15 @@ function calculateAccuracy(leaders: FullLeaderboard) {
     const leadersWithAccuracy: FullLeaderboard = {};
 
     Object.keys(leaders).forEach((name) => {
-        const { total, wins } = leaders[name];
+        const { total, wins, perfect } = leaders[name];
+
         const accuracy = (wins / total) * 100;
+        const perfect_accuracy = (perfect / total) * 100;
 
         leadersWithAccuracy[name] = {
             ...leaders[name],
             accuracy,
+            perfect_accuracy,
         };
     });
     return calculateTimes(leadersWithAccuracy);
