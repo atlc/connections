@@ -15,7 +15,7 @@ const PerfectAccuracy = () => {
             <th scope="row">Perfect ratio:</th>
             {sortByColumn({ leaderBoard, column: "perfect_accuracy" }).map(([name, { perfect_accuracy }]) => (
                 <td key={`${name}-perfect_accuracy-leaderboard-rating`}>
-                    {name.trim()}: <strong>{perfect_accuracy.toFixed(2)}%</strong>
+                    {name.trim()}: <strong>{perfect_accuracy.toFixed(1)}%</strong>
                 </td>
             ))}
         </tr>

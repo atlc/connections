@@ -58,7 +58,9 @@ export const getDateAttributes = (boards: IBoard[]) => {
             const is_after_noon = meridiem === "PM";
             const hours = is_midnight ? 0 : is_after_noon ? parsedHours + 12 : parsedHours;
 
-            board.is_gunslinger = dayBoards.reverse()[0].id === b.id;
+            const fastestSubmission = dayBoards.reverse().find((b) => b.is_win);
+
+            board.is_gunslinger = board.id === fastestSubmission?.id;
             board.timestamp = timestamp;
             board.time_delta = `${hours}:${mm}:${ss}`;
         }
@@ -83,6 +85,35 @@ export const getTimeAverage = (formattedTimes: string[]) => {
 
     return {
         seconds: averageSeconds,
+        formatted,
+    };
+};
+
+export const getMedianTime = (formattedTimes: string[]) => {
+    const times: number[] = [];
+    for (const timeStr of formattedTimes) {
+        const [hh, mm, ss] = timeStr.split(":");
+        const flattenedSeconds = +hh * 3600 + +mm * 60 + +ss;
+        times.push(flattenedSeconds);
+    }
+
+    times.sort((a, b) => a - b);
+
+    let medianSeconds: number;
+    const arrayIsEven = times.length % 2 === 0;
+
+    if (arrayIsEven) {
+        const left = times[times.length / 2 - 1];
+        const right = times[times.length / 2];
+        medianSeconds = (left + right) / 2;
+    } else {
+        medianSeconds = times[Math.floor(times.length / 2)];
+    }
+
+    const formatted = secondsToFormattedHHMMSS(medianSeconds);
+
+    return {
+        seconds: medianSeconds,
         formatted,
     };
 };

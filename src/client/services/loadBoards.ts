@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 import type { FullLeaderboard, LeaderboardEntry } from "../types";
-import { getBestTime, getTimeAverage } from "../utilities/parsers";
+import { getBestTime, getMedianTime, getTimeAverage } from "../utilities/parsers";
 import { store } from "../store";
 import { set_from_api } from "../store/boards/boardsSlice";
 import { set_leaderboard } from "../store/leaderboard/leaderboardSlice";
@@ -33,6 +33,7 @@ export async function loadPastBoards() {
             active: { active: 0, max: 0, stopped: 0 },
             fastest: { seconds: 0, formatted: "" },
             average: { seconds: 0, formatted: "" },
+            median: { seconds: 0, formatted: "" },
             deviation: { mean: 0, population: 0, user: 0 },
         };
 
@@ -63,6 +64,8 @@ export async function loadPastBoards() {
             }
 
             const dayBoard = byDate[day];
+
+            console.log(dayBoard);
 
             dayBoard.forEach(({ name, number, is_perfect, is_win, is_gunslinger, time_delta }) => {
                 const first_timestamp_day = 172;
@@ -129,12 +132,14 @@ function calculateTimes(leaders: FullLeaderboard) {
 
     Object.keys(leaders).forEach((player) => {
         const average = getTimeAverage(leaders[player].times);
+        const median = getMedianTime(leaders[player].times);
         const fastest = getBestTime(leaders[player].times);
 
         leadersWithAverageTime[player] = {
             ...leaders[player],
             fastest,
             average,
+            median,
         };
     });
     return calculateDeviations(leadersWithAverageTime);

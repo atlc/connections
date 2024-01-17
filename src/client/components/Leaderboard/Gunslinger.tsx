@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 /**
  *
- * @returns A table row counting the amount of times a user was the first to submit
+ * @returns A table row counting the amount of times a user was the first to submit a correct solution
  */
 const Gunslingers = () => {
     const leaderBoard = useSelector((state: RootState) => state.leaderboard.leaderboard);

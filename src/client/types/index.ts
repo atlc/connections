@@ -22,6 +22,7 @@ export interface LeaderboardEntry {
     active: { max: number; active: number; stopped: number };
     fastest: { seconds: number; formatted: string };
     average: { seconds: number; formatted: string };
+    median: { seconds: number; formatted: string };
     deviation: { mean: number; population: number; user: number };
 }
 

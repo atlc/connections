@@ -4,13 +4,12 @@ import MaxStreak from "./MaxStreak";
 import Perfect from "./Perfect";
 import Wins from "./Wins";
 import Accuracy from "./Accuracy";
-import Deviations from "./Deviations";
 import Gunslinger from "./Gunslinger";
-import AverageTime from "./AverageTime";
 import BestTime from "./BestTime";
 import PerfectAccuracy from "./PerfectAccuracy";
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
+import MedianTime from "./MedianTime";
 
 /**
  *
@@ -39,11 +38,10 @@ const Leaderboard = () => {
                     <tbody>
                         <Wins />
                         <Accuracy />
-                        {/* <Deviations /> */}
                         <Perfect />
                         <PerfectAccuracy />
                         <Gunslinger />
-                        <AverageTime />
+                        <MedianTime />
                         <BestTime />
                         <Active />
                         <MaxStreak />
