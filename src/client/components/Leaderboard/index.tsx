@@ -39,7 +39,7 @@ const Leaderboard = () => {
                     <tbody>
                         <Wins />
                         <Accuracy />
-                        <Deviations />
+                        {/* <Deviations /> */}
                         <Perfect />
                         <PerfectAccuracy />
                         <Gunslinger />
