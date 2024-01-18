@@ -24,6 +24,26 @@ router.post("/", hasGoodBoard, async (req, res, next) => {
     }
 });
 
+router.get("/comments", async (req, res, next) => {
+    try {
+        const comments = await Boards.comments.getAll();
+        res.json(comments);
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.post("/comments", async (req, res, next) => {
+    const { day, name, text } = req.body;
+
+    try {
+        await Boards.comments.add({ day, name, text });
+        res.status(201).json({ message: "Added!" });
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.use(errorHandler);
 
 export default router;

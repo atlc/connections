@@ -39,3 +39,15 @@ export interface BoardCardProps {
 export interface DayHeaderProps {
     day: string;
 }
+
+export interface IComment {
+    id: number;
+    name: string;
+    day: string;
+    text: string;
+    created_at: string;
+}
+
+export interface CommentsByDate {
+    [day: string]: IComment[];
+}

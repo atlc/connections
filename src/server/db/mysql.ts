@@ -8,6 +8,12 @@ export interface BoardSubmission {
     is_perfect: boolean;
 }
 
+export interface ICommentSubmission {
+    name: string;
+    day: string;
+    text: string;
+}
+
 const pool = mysql.createPool(process.env.DB_URL!);
 
 export const Query = (sql: string, vals: unknown[] = []) => {

@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
  */
 const DaySet = ({ day }: DayHeaderProps) => {
     const boards = useSelector((state: RootState) => state.boards.boards);
+
     return (
         <div className="my-5 rounded-3 p-2 bg-light-subtle row justify-content-center">
             <DayHeader day={day} />

@@ -1,20 +1,31 @@
 import Swal from "sweetalert2";
-import type { FullLeaderboard, LeaderboardEntry } from "../types";
+import type { CommentsByDate, FullLeaderboard, IBoard, IComment, LeaderboardEntry } from "../types";
 import { getBestTime, getMedianTime, getTimeAverage } from "../utilities/parsers";
 import { store } from "../store";
 import { set_from_api } from "../store/boards/boardsSlice";
 import { set_leaderboard } from "../store/leaderboard/leaderboardSlice";
+import { sort_and_set_comments } from "../store/comments/commentsSlice";
+
+const URL_PREFACE = process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
+
+export async function loadComments() {
+    const res = await fetch(`${URL_PREFACE}/api/boards/comments`);
+    const data: IComment[] = await res.json();
+    if (!res.ok) throw new Error((data as unknown as Error).message);
+    store.dispatch(sort_and_set_comments(data));
+}
 
 export async function loadPastBoards() {
     try {
-        const URL_PREFACE = process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
-
         const res = await fetch(`${URL_PREFACE}/api/boards`);
         const data = await res.json();
 
         if (!res.ok) throw new Error(data.message);
 
         store.dispatch(set_from_api(data));
+
+        await loadComments();
+
         const allStore = store.getState().boards;
         const byDate = allStore.boards;
 
@@ -64,8 +75,6 @@ export async function loadPastBoards() {
             }
 
             const dayBoard = byDate[day];
-
-            console.log(dayBoard);
 
             dayBoard.forEach(({ name, number, is_perfect, is_win, is_gunslinger, time_delta }) => {
                 const first_timestamp_day = 172;
