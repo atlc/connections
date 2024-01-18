@@ -11,7 +11,7 @@ import { addComment } from "../../services/addComment";
  * @returns If all submissions get a perfect score, appends "Team ACE!"
  */
 const DayHeader = ({ day }: DayHeaderProps) => {
-    const [showComments, setShowComments] = useState(true);
+    const [showComments, setShowComments] = useState(false);
     const [comment, setComment] = useState("");
 
     const dailyComments = useSelector((state: RootState) => state.comments.comments)[day] || [];

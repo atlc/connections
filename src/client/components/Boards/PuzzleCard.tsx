@@ -7,7 +7,7 @@ import { unsanitize } from "../../utilities/parsers";
  * @returns A card consisting of an individual user's submission for the day
  */
 const PuzzleCard = (props: BoardCardProps) => {
-    const { name, id, is_perfect, board, number, timestamp, is_gunslinger } = props.board;
+    const { name, id, is_perfect, board, number, timestamp, is_gunslinger, is_hardmode } = props.board;
     const first_timestamp_day = 172;
     const is_timestamped = parseInt(number) && parseInt(number) > first_timestamp_day;
 
@@ -19,6 +19,7 @@ const PuzzleCard = (props: BoardCardProps) => {
                         {name}
                         <span className="emoji">{is_perfect ? "🌠" : ""}</span>
                         <span className="emoji">{is_gunslinger ? "⏱️" : ""}</span>
+                        <span className="emoji bg-success rounded-1 ">{is_hardmode ? "💪" : ""}</span>
                     </h3>
                     {is_timestamped && <span className="text-muted text-end time">{timestamp}</span>}
 

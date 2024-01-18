@@ -77,7 +77,7 @@ export async function loadPastBoards() {
 
             const dayBoard = byDate[day];
 
-            dayBoard.forEach(({ name, number, is_perfect, is_win, is_gunslinger, time_delta }) => {
+            dayBoard.forEach(({ name, number, is_perfect, is_win, is_gunslinger, time_delta, is_hardmode }, i) => {
                 const first_timestamp_day = 172;
                 const parsedDay = parseInt(number);
 
@@ -91,6 +91,10 @@ export async function loadPastBoards() {
 
                 if (is_perfect) {
                     leaders[name].perfect += 1;
+                }
+
+                if (is_hardmode) {
+                    leaders[name].hard_modes += 1;
                 }
 
                 if (is_win) {

@@ -10,6 +10,7 @@ import PerfectAccuracy from "./PerfectAccuracy";
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 import MedianTime from "./MedianTime";
+import HardModes from "./HardModes";
 
 /**
  *
@@ -41,6 +42,7 @@ const Leaderboard = () => {
                         <Perfect />
                         <PerfectAccuracy />
                         <Gunslinger />
+                        <HardModes />
                         <MedianTime />
                         <BestTime />
                         <Active />

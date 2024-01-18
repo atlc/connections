@@ -7,6 +7,7 @@ export interface IBoard {
     is_win: boolean;
     is_perfect: boolean;
     is_gunslinger: boolean;
+    is_hardmode: boolean;
     timestamp: string;
     time_delta: string;
 }
