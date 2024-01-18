@@ -40,6 +40,7 @@ export async function loadPastBoards() {
             accuracy: 0,
             wins: 0,
             gunslingers: 0,
+            hard_modes: 0,
             times: [],
             active: { active: 0, max: 0, stopped: 0 },
             fastest: { seconds: 0, formatted: "" },

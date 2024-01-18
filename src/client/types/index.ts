@@ -17,6 +17,7 @@ export interface LeaderboardEntry {
     wins: number;
     total: number;
     gunslingers: number;
+    hard_modes: number;
     times: string[];
     accuracy: number;
     active: { max: number; active: number; stopped: number };
