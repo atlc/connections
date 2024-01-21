@@ -4,7 +4,7 @@ import LocalStorage from "../../services/LocalStorage";
 
 const initialState = {
     name: "",
-    darkMode: true,
+    darkMode: LocalStorage.darkMode.get(),
     hadName: false,
     changeName: false,
     showAddBoard: true,

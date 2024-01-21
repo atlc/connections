@@ -36,7 +36,7 @@ const NameInput = () => {
     }
 
     return (
-        <div className={`mt-2 card ${isDark ? "bg-dark-subtle" : "bg-white"} p-2`}>
+        <div className={`mt-2 card border ${isDark ? "bg-dark border-secondary" : "bg-white border-white"} p-2`}>
             <div>
                 {!board && (
                     <button onClick={() => dispatch(setShowAddBoard(!showAddBoard))} className="btn btn-secondary m-2">
@@ -63,7 +63,7 @@ const NameInput = () => {
                         onChange={(e) => dispatch(setName(e.target.value))}
                         type="text"
                         placeholder="Ken Jennings"
-                        className={`form-control`}
+                        className={`form-control ${isDark ? "bg-secondary" : "bg-white"}`}
                     />
                     <button onClick={handleNameChange} className="btn btn-secondary mt-4">
                         {hadName ? "Update name?" : "Set name"}

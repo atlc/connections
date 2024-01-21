@@ -15,7 +15,7 @@ const entries: IEntry[] = [
         date: "2024-01-21",
         notes: [
             {
-                text: "Feature: DARK MODE IS HERE! The button in the top by the name inputs will let you toggle between light & dark and it will persist your preferences between visits. No more scorching of your retinas after midnight, for those of you who like to have bright phone screens!",
+                text: "Feature: DARK MODE IS HERE! The button in the top by the name inputs will let you toggle between light & dark and it will save your preferences between visits. No more scorching of your retinas after midnight, for those of you who like to have bright phone screens!",
                 shouldHighlight: true,
             },
         ],
@@ -61,7 +61,7 @@ const Changelog = () => {
             style={{ maxHeight: "33vh" }}
         >
             <h1 className={`text-${isDark ? "secondary" : "dark"}`} onClick={() => setCollapsed(!collapsed)}>
-                Changelog <span className="btn btn-secondary">{collapsed ? "show" : "hide"} app updates</span>
+                Changelog (1/20) <span className="btn btn-secondary">{collapsed ? "show" : "hide"} updates</span>
             </h1>
             {!collapsed &&
                 entries

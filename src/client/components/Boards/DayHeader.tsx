@@ -57,7 +57,7 @@ const DayHeader = ({ day }: DayHeaderProps) => {
                     ) : all_are_failures ? (
                         <em className="text-danger">(Embarrassing!)</em>
                     ) : one_person_screwed_up ? (
-                        <p style={{ fontSize: "1rem" }} className="text-muted">
+                        <p style={{ fontSize: "1rem" }} className={isDark ? "text-secondary" : "text-muted"}>
                             WOMP WOMP - we were <em>almost</em> all perfect. Thanks, {whos_to_blame}!
                         </p>
                     ) : (
@@ -67,7 +67,9 @@ const DayHeader = ({ day }: DayHeaderProps) => {
             {showComments && (
                 <div
                     style={{ maxHeight: "50vh" }}
-                    className="overflow-scroll row justify-content-center bg-dark-subtle py-2 rounded-3"
+                    className={`overflow-scroll row justify-content-center bg-${
+                        isDark ? "dark" : "dark-subtle"
+                    } py-2 rounded-3`}
                 >
                     <div className="col-12 col-md-10 row justify-content-center rounded-3 border border-secondary border-2 border-top-0 py-2 my-2">
                         <div className="col-12 col-md-8 my-1">
@@ -75,7 +77,7 @@ const DayHeader = ({ day }: DayHeaderProps) => {
                                 value={comment}
                                 onChange={(e) => setComment(e.target.value)}
                                 placeholder='Ugh, the "Chemistry Terms" killed me!!'
-                                className="form-control"
+                                className={`form-control ${isDark ? "bg-secondary text-black" : "bg-white"}`}
                                 type="text"
                                 maxLength={MAX_COMMENT_LENGTH}
                             />
@@ -98,8 +100,12 @@ const DayHeader = ({ day }: DayHeaderProps) => {
                                 <div
                                     className={`col-10 shadow p-2 mw-100 my-1 rounded-3  ${
                                         currentUser === dc.name
-                                            ? "bg-secondary-subtle flex-row-reverse border border-secondary border-2 border-end-0"
-                                            : "bg-success-subtle flex-row border border-success border-2 border-start-0"
+                                            ? `border ${
+                                                  isDark ? "bg-secondary " : "bg-secondary-subtle"
+                                              } text-dark flex-row-reverse border-secondary border-2 border-end-0`
+                                            : `border ${
+                                                  isDark ? "bg-success" : "bg-success-subtle"
+                                              } text-dark flex-row border-success border-2 border-start-0`
                                     }`}
                                 >
                                     <span className="d-block fw-bold">

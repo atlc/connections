@@ -28,11 +28,11 @@ const BoardInput = () => {
                 <>
                     {showAddBoard && (
                         <textarea
-                            placeholder="Paste your board in here exactly as it comes from the NYT"
+                            placeholder="Paste your board here exactly as it comes from the NYT"
                             rows={6}
                             style={{ resize: "none" }}
-                            className={`my-2 form-control ${
-                                isDark ? "bg-dark-subtle text-white" : "bg-white text-dark"
+                            className={`my-2 form-control border ${
+                                isDark ? "bg-secondary border-secondary" : "bg-white border-white text-dark"
                             }`}
                             value={board}
                             onChange={(e) => dispatch(setBoard(e.target.value))}
