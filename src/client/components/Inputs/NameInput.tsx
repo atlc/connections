@@ -3,6 +3,8 @@ import { loadPastBoards } from "../../services/loadBoards";
 import { RootState } from "../../store";
 import { useSelector, useDispatch } from "react-redux";
 import { setShowAddBoard, setName, setHadName, setShouldChangeName } from "../../store/inputs/inputsSlice";
+import DarkModeToggle from "./DarkModeToggle";
+import LocalStorage from "../../services/LocalStorage";
 
 /**
  *
@@ -17,7 +19,7 @@ const NameInput = () => {
     const changeName = useSelector((state: RootState) => state.inputs.changeName);
 
     useEffect(() => {
-        const lsName = localStorage.getItem("name");
+        const lsName = LocalStorage.name.get();
         if (lsName) {
             dispatch(setName(lsName));
             dispatch(setHadName(true));
@@ -27,7 +29,7 @@ const NameInput = () => {
     }, []);
 
     function handleNameChange() {
-        localStorage.setItem("name", name);
+        LocalStorage.name.set(name);
         dispatch(setHadName(true));
         dispatch(setShouldChangeName(false));
     }
@@ -45,6 +47,7 @@ const NameInput = () => {
                         Change name? ({name})
                     </button>
                 )}
+                <DarkModeToggle />
             </div>
             <h1>{!hadName && "Whose board is this?"}</h1>
             {(!hadName || changeName) && (

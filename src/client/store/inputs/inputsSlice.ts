@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import LocalStorage from "../../services/LocalStorage";
 
 const initialState = {
     name: "",
+    darkMode: false,
     hadName: false,
     changeName: false,
     showAddBoard: true,
@@ -28,9 +30,14 @@ export const inputsSlice = createSlice({
         setBoard: (state, action: PayloadAction<string>) => {
             state.board = action.payload;
         },
+        toggleDarkMode: (state, action: PayloadAction<boolean>) => {
+            state.darkMode = action.payload;
+            LocalStorage.darkMode.set(action.payload);
+        },
     },
 });
 
-export const { setBoard, setName, setHadName, setShouldChangeName, setShowAddBoard } = inputsSlice.actions;
+export const { setBoard, setName, setHadName, setShouldChangeName, setShowAddBoard, toggleDarkMode } =
+    inputsSlice.actions;
 
 export default inputsSlice.reducer;
