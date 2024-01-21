@@ -11,9 +11,14 @@ import { useSelector } from "react-redux";
  */
 const DaySet = ({ day }: DayHeaderProps) => {
     const boards = useSelector((state: RootState) => state.boards.boards);
+    const isDark = useSelector((state: RootState) => state.inputs.darkMode);
 
     return (
-        <div className="my-5 rounded-3 p-2 bg-light-subtle row justify-content-center">
+        <div
+            className={`my-5 rounded-3 p-2 ${
+                isDark ? "bg-dark border border-secondary text-secondary" : "bg-light-subtle"
+            } row justify-content-center`}
+        >
             <DayHeader day={day} />
             {boards[day].map((b) => (
                 <PuzzleCard board={b} key={`${b.name}-puzzle-card-${b.id}`} />

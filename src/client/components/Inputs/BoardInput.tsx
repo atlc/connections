@@ -14,6 +14,7 @@ const BoardInput = () => {
     const showAddBoard = useSelector((state: RootState) => state.inputs.showAddBoard);
     const name = useSelector((state: RootState) => state.inputs.name);
     const hadName = useSelector((state: RootState) => state.inputs.hadName);
+    const isDark = useSelector((state: RootState) => state.inputs.darkMode);
 
     const add = async () => {
         await addBoard({ board, name });
@@ -24,13 +25,15 @@ const BoardInput = () => {
     return (
         <>
             {name && hadName && (
-                <div className="card my-1">
+                <>
                     {showAddBoard && (
                         <textarea
                             placeholder="Paste your board in here exactly as it comes from the NYT"
                             rows={6}
                             style={{ resize: "none" }}
-                            className="form-control"
+                            className={`my-2 form-control ${
+                                isDark ? "bg-dark-subtle text-white" : "bg-white text-dark"
+                            }`}
                             value={board}
                             onChange={(e) => dispatch(setBoard(e.target.value))}
                         />
@@ -40,7 +43,7 @@ const BoardInput = () => {
                             Add board
                         </button>
                     )}
-                </div>
+                </>
             )}
         </>
     );

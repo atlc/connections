@@ -17,6 +17,7 @@ const NameInput = () => {
     const name = useSelector((state: RootState) => state.inputs.name);
     const hadName = useSelector((state: RootState) => state.inputs.hadName);
     const changeName = useSelector((state: RootState) => state.inputs.changeName);
+    const isDark = useSelector((state: RootState) => state.inputs.darkMode);
 
     useEffect(() => {
         const lsName = LocalStorage.name.get();
@@ -35,7 +36,7 @@ const NameInput = () => {
     }
 
     return (
-        <div className="mt-2 card bg-white p-2">
+        <div className={`mt-2 card ${isDark ? "bg-dark-subtle" : "bg-white"} p-2`}>
             <div>
                 {!board && (
                     <button onClick={() => dispatch(setShowAddBoard(!showAddBoard))} className="btn btn-secondary m-2">
@@ -62,7 +63,7 @@ const NameInput = () => {
                         onChange={(e) => dispatch(setName(e.target.value))}
                         type="text"
                         placeholder="Ken Jennings"
-                        className="form-control"
+                        className={`form-control`}
                     />
                     <button onClick={handleNameChange} className="btn btn-secondary mt-4">
                         {hadName ? "Update name?" : "Set name"}

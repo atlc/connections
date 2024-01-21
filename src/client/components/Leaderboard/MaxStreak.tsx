@@ -9,12 +9,15 @@ import { useSelector } from "react-redux";
  */
 const MaxStreak = () => {
     const leaderBoard = useSelector((state: RootState) => state.leaderboard.leaderboard);
+    const isDark = useSelector((state: RootState) => state.inputs.darkMode);
 
     return (
         <tr>
-            <th scope="row">Max streak:</th>
+            <th className={isDark ? "text-secondary" : "text-dark"} scope="row">
+                Max streak:
+            </th>
             {sortByColumn({ leaderBoard, column: "active", childColumn: "max" }).map(([name, { active, total }]) => (
-                <td key={`${name}-max-leaderboard-rating`}>
+                <td className={isDark ? "text-secondary" : "text-dark"} key={`${name}-max-leaderboard-rating`}>
                     {name.trim()}: <strong>{active.max}</strong>
                     {active.max === total && <span> (💯)</span>}
                 </td>

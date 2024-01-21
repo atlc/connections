@@ -9,13 +9,19 @@ import { useSelector } from "react-redux";
  */
 const BestTime = () => {
     const leaderBoard = useSelector((state: RootState) => state.leaderboard.leaderboard);
+    const isDark = useSelector((state: RootState) => state.inputs.darkMode);
 
     return (
         <tr>
-            <th scope="row">Best Time:</th>
+            <th className={isDark ? "text-secondary" : "text-dark"} scope="row">
+                Best Time:
+            </th>
             {sortByColumn({ leaderBoard, column: "fastest", childColumn: "seconds", isReversed: true }).map(
                 ([name, { fastest }]) => (
-                    <td key={`${name}-fastest-time-leaderboard-rating`}>
+                    <td
+                        className={isDark ? "text-secondary" : "text-dark"}
+                        key={`${name}-fastest-time-leaderboard-rating`}
+                    >
                         {name.trim()}: <strong>{fastest.formatted}</strong>
                     </td>
                 )

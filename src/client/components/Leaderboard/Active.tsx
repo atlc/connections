@@ -9,12 +9,15 @@ import { useSelector } from "react-redux";
  */
 const Active = () => {
     const leaderBoard = useSelector((state: RootState) => state.leaderboard.leaderboard);
+    const isDark = useSelector((state: RootState) => state.inputs.darkMode);
 
     return (
         <tr>
-            <th scope="row">Active streak:</th>
+            <th className={isDark ? "text-secondary" : "text-dark"} scope="row">
+                Active streak:
+            </th>
             {sortByColumn({ leaderBoard, column: "active", childColumn: "active" }).map(([name, { active, total }]) => (
-                <td key={`${name}-active-leaderboard-rating`}>
+                <td className={isDark ? "text-secondary" : "text-dark"} key={`${name}-active-leaderboard-rating`}>
                     {name.trim()}: <strong>{active.active}</strong>
                     {active.active === total && <span> (💯)</span>}
                 </td>

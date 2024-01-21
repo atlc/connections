@@ -1,5 +1,5 @@
 import React from "react";
-import DayCard from "./DaySet";
+import DaySet from "./DaySet";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 
@@ -15,7 +15,7 @@ const Boards = () => {
             {Object.keys(boards)
                 .reverse()
                 .map((day) => (
-                    <DayCard day={day} key={`puzzle-row-${day}`} />
+                    <DaySet day={day} key={`puzzle-row-${day}`} />
                 ))}
         </>
     );

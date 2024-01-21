@@ -30,6 +30,7 @@ const DayHeader = ({ day }: DayHeaderProps) => {
     const whos_to_blame = players.find((b) => !b.is_perfect)?.name || "<<Andrew sucks at coding, could not find name>>";
 
     const currentUser = useSelector((state: RootState) => state.inputs.name);
+    const isDark = useSelector((state: RootState) => state.inputs.darkMode);
     const MAX_COMMENT_LENGTH = 256;
 
     const handleAddComment = () => {
@@ -38,10 +39,15 @@ const DayHeader = ({ day }: DayHeaderProps) => {
         setComment("");
     };
 
+    const DARK = isDark;
+    const LIGHT = !isDark;
+    const PERFECT = is_perfect;
+    const NOT_PERFECT = !is_perfect;
+
     return (
         <>
-            <h1 className="text-center">
-                <span onClick={() => setShowComments(!showComments)} className="btn btn-secondary mx-2">
+            <h1 className={`text-center`}>
+                <span onClick={() => setShowComments(!showComments)} className={`btn btn-secondary mx-2`}>
                     {showComments ? "Hide Comments" : "Show Comments"}
                 </span>
                 Puzzle #{day}{" "}

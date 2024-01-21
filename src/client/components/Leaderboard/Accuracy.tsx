@@ -8,12 +8,15 @@ import { useSelector } from "react-redux";
  */
 const Accuracy = () => {
     const leaderBoard = useSelector((state: RootState) => state.leaderboard.leaderboard);
+    const isDark = useSelector((state: RootState) => state.inputs.darkMode);
 
     return (
         <tr>
-            <th scope="row">Accuracy:</th>
+            <th className={isDark ? "text-secondary" : "text-dark"} scope="row">
+                Accuracy:
+            </th>
             {sortByColumn({ leaderBoard, column: "accuracy" }).map(([name, { accuracy }]) => (
-                <td key={`${name}-accuracy-leaderboard-rating`}>
+                <td className={isDark ? "text-secondary" : "text-dark"} key={`${name}-accuracy-leaderboard-rating`}>
                     {name.trim()}: <strong>{accuracy.toFixed(1)}%</strong>
                 </td>
             ))}
