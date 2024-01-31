@@ -36,6 +36,8 @@ router.get("/comments", async (req, res, next) => {
 router.post("/comments", async (req, res, next) => {
     const { day, name, text } = req.body;
 
+    if (text.length > 512) return res.status(400).json({ message: "Comment cannot exceed 512 characters" });
+
     try {
         await Boards.comments.add({ day, name, text });
         res.status(201).json({ message: "Added!" });

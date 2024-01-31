@@ -31,7 +31,7 @@ const DayHeader = ({ day }: DayHeaderProps) => {
 
     const currentUser = useSelector((state: RootState) => state.inputs.name);
     const isDark = useSelector((state: RootState) => state.inputs.darkMode);
-    const MAX_COMMENT_LENGTH = 256;
+    const MAX_COMMENT_LENGTH = 512;
 
     const handleAddComment = () => {
         if (!comment) return;
@@ -67,9 +67,7 @@ const DayHeader = ({ day }: DayHeaderProps) => {
             {showComments && (
                 <div
                     style={{ maxHeight: "50vh" }}
-                    className={`overflow-scroll row justify-content-center bg-${
-                        isDark ? "dark" : "dark-subtle"
-                    } py-2 rounded-3`}
+                    className={`overflow-scroll row justify-content-center bg-${isDark ? "dark" : "dark-subtle"} py-2 rounded-3`}
                 >
                     <div className="col-12 col-md-10 row justify-content-center rounded-3 border border-secondary border-2 border-top-0 py-2 my-2">
                         <div className="col-12 col-md-8 my-1">
@@ -93,26 +91,18 @@ const DayHeader = ({ day }: DayHeaderProps) => {
                     </div>
                     <div className="col-12 col-md-10">
                         {dailyComments.map((dc) => (
-                            <div
-                                key={`${dc.name}-comment-${dc.id}`}
-                                className={`d-flex ${currentUser === dc.name ? "flex-row-reverse" : "flex-row"}`}
-                            >
+                            <div key={`${dc.name}-comment-${dc.id}`} className={`d-flex ${currentUser === dc.name ? "flex-row-reverse" : "flex-row"}`}>
                                 <div
                                     className={`col-10 shadow p-2 mw-100 my-1 rounded-3  ${
                                         currentUser === dc.name
                                             ? `border ${
                                                   isDark ? "bg-secondary " : "bg-secondary-subtle"
                                               } text-dark flex-row-reverse border-secondary border-2 border-end-0`
-                                            : `border ${
-                                                  isDark ? "bg-success" : "bg-success-subtle"
-                                              } text-dark flex-row border-success border-2 border-start-0`
+                                            : `border ${isDark ? "bg-success" : "bg-success-subtle"} text-dark flex-row border-success border-2 border-start-0`
                                     }`}
                                 >
                                     <span className="d-block fw-bold">
-                                        {dc.name}{" "}
-                                        <span className="fw-light">
-                                            ({new Date(dc.created_at).toLocaleTimeString()})
-                                        </span>
+                                        {dc.name} <span className="fw-light">({new Date(dc.created_at).toLocaleTimeString()})</span>
                                     </span>
 
                                     <span>{dc.text}</span>
