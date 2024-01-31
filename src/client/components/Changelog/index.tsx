@@ -2,15 +2,31 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 
+type DateFormat = {
+    "mM/dD": `${number | ""}${number}/${number | ""}${number}`;
+    "YYYY-MM-DD": `${number}${number}${number}${number}-${number}${number}-${number}${number}`;
+};
+
 interface IEntry {
-    date: string;
+    date: DateFormat["YYYY-MM-DD"];
     notes: {
         text: string;
         shouldHighlight?: boolean;
     }[];
 }
 
+const LAST_UPDATE: DateFormat["mM/dD"] = `1/31`;
+
 const entries: IEntry[] = [
+    {
+        date: "2024-01-31",
+        notes: [
+            { text: "Upped the comment length from 256 to 512 characters" },
+            {
+                text: "Mostly wrapped up code to inject functionality into the Connections website itself with a Firefox/Chrome extension which will let a user pull their board history back to see a play-by-play replay, and also get an accurate time score potentially. This means if one starts playing at 3 AM and finished at 3:10 AM, their score could be recorded as 10 minutes of playtime instead of measuring the submission time of 190 minutes.",
+            },
+        ],
+    },
     {
         date: "2024-01-21",
         notes: [
@@ -56,28 +72,19 @@ const Changelog = () => {
     const isDark = useSelector((state: RootState) => state.inputs.darkMode);
 
     return (
-        <div
-            className="row justify-content-center overflow-scroll border border-secondary border-1 rounded-3 p-1 mx-1"
-            style={{ maxHeight: "33vh" }}
-        >
+        <div className="row justify-content-center overflow-scroll border border-secondary border-1 rounded-3 p-1 mx-1" style={{ maxHeight: "33vh" }}>
             <h1 className={`text-${isDark ? "secondary" : "dark"}`} onClick={() => setCollapsed(!collapsed)}>
-                Changelog (1/20) <span className="btn btn-secondary">{collapsed ? "show" : "hide"} updates</span>
+                Changelog ({LAST_UPDATE}) <span className="btn btn-secondary">{collapsed ? "show" : "hide"} updates</span>
             </h1>
             {!collapsed &&
                 entries
                     .sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
                     .map((entry) => (
                         <div key={`changelog-div-${entry.date}`} className="col-12">
-                            <h2
-                                className={`text-${isDark ? "secondary" : "dark"}`}
-                                onClick={() => setCollapsed(!collapsed)}
-                            >
+                            <h2 className={`text-${isDark ? "secondary" : "dark"}`} onClick={() => setCollapsed(!collapsed)}>
                                 {new Date(entry.date).toDateString()}
                             </h2>
-                            <ul
-                                className={`text-${isDark ? "secondary" : "dark"}`}
-                                onClick={() => setCollapsed(!collapsed)}
-                            >
+                            <ul className={`text-${isDark ? "secondary" : "dark"}`} onClick={() => setCollapsed(!collapsed)}>
                                 {entry.notes.map((ent, i) => (
                                     <li key={`changelog-entry-${entry.date}-${i}`}>
                                         <span className={ent.shouldHighlight ? "fw-bold" : ""}>{ent.text}</span>
