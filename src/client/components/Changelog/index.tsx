@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 
 type DateFormat = {
+    "mM/dD": `${number | ""}${number}/${number | ""}${number}`;
     "YYYY-MM-DD": `${number}${number}${number}${number}-${number}${number}-${number}${number}`;
 };
 
@@ -13,6 +14,8 @@ interface IEntry {
         shouldHighlight?: boolean;
     }[];
 }
+
+const LAST_UPDATE: DateFormat["mM/dD"] = `1/31`;
 
 const entries: IEntry[] = [
     {
@@ -71,7 +74,7 @@ const Changelog = () => {
     return (
         <div className="row justify-content-center overflow-scroll border border-secondary border-1 rounded-3 p-1 mx-1" style={{ maxHeight: "33vh" }}>
             <h1 className={`text-${isDark ? "secondary" : "dark"}`} onClick={() => setCollapsed(!collapsed)}>
-                Changelog (1/20) <span className="btn btn-secondary">{collapsed ? "show" : "hide"} updates</span>
+                Changelog ({LAST_UPDATE}) <span className="btn btn-secondary">{collapsed ? "show" : "hide"} updates</span>
             </h1>
             {!collapsed &&
                 entries
