@@ -15,9 +15,21 @@ interface IEntry {
     }[];
 }
 
-const LAST_UPDATE: DateFormat["mM/dD"] = `1/31`;
+const LAST_UPDATE: DateFormat["mM/dD"] = `3/15`;
 
 const entries: IEntry[] = [
+    {
+        date: "2024-03-15",
+        notes: [
+            {
+                text: "Everyone now has the ability to delete their comments!",
+                shouldHighlight: true,
+            },
+            {
+                text: "Small bit of code cleanup consisting of making a reusable API service to greatly reduce the amount of fetch code being written and making an alert service wrapping around the Sweetalert success/error calls. Overall a net negative in code which is greatly needed in this project lol.",
+            },
+        ],
+    },
     {
         date: "2024-01-31",
         notes: [
@@ -71,6 +83,13 @@ const Changelog = () => {
     const [collapsed, setCollapsed] = useState(true);
     const isDark = useSelector((state: RootState) => state.inputs.darkMode);
 
+    const formatDate = (date: Date) => {
+        const offsetDate = date;
+        offsetDate.setDate(date.getDate() + 1);
+        const [dayName, monthAbbv, monthDay, yearDay] = offsetDate.toDateString().split(" ");
+        return `${monthAbbv} ${monthDay}, ${yearDay} (${dayName})`;
+    };
+
     return (
         <div className="row justify-content-center overflow-scroll border border-secondary border-1 rounded-3 p-1 mx-1" style={{ maxHeight: "33vh" }}>
             <h1 className={`text-${isDark ? "secondary" : "dark"}`} onClick={() => setCollapsed(!collapsed)}>
@@ -82,7 +101,7 @@ const Changelog = () => {
                     .map((entry) => (
                         <div key={`changelog-div-${entry.date}`} className="col-12">
                             <h2 className={`text-${isDark ? "secondary" : "dark"}`} onClick={() => setCollapsed(!collapsed)}>
-                                {new Date(entry.date).toDateString()}
+                                {formatDate(new Date(entry.date))}
                             </h2>
                             <ul className={`text-${isDark ? "secondary" : "dark"}`} onClick={() => setCollapsed(!collapsed)}>
                                 {entry.notes.map((ent, i) => (

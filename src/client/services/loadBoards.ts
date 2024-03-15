@@ -1,26 +1,20 @@
-import Swal from "sweetalert2";
-import type { CommentsByDate, FullLeaderboard, IBoard, IComment, LeaderboardEntry } from "../types";
+import type { FullLeaderboard, LeaderboardEntry } from "../types";
 import { getBestTime, getMedianTime, getTimeAverage } from "../utilities/parsers";
 import { store } from "../store";
 import { set_from_api } from "../store/boards/boardsSlice";
 import { set_leaderboard } from "../store/leaderboard/leaderboardSlice";
 import { sort_and_set_comments } from "../store/comments/commentsSlice";
-
-const URL_PREFACE = process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
+import { GET } from "./apiService";
+import Alerts from "./Alerts";
 
 export async function loadComments() {
-    const res = await fetch(`${URL_PREFACE}/api/boards/comments`);
-    const data: IComment[] = await res.json();
-    if (!res.ok) throw new Error((data as unknown as Error).message);
+    const data = await GET("/api/boards/comments");
     store.dispatch(sort_and_set_comments(data));
 }
 
 export async function loadPastBoards() {
     try {
-        const res = await fetch(`${URL_PREFACE}/api/boards`);
-        const data = await res.json();
-
-        if (!res.ok) throw new Error(data.message);
+        const data = await GET("/api/boards");
 
         store.dispatch(set_from_api(data));
 
@@ -107,14 +101,7 @@ export async function loadPastBoards() {
 
         store.dispatch(set_leaderboard(leadersWithAllStats));
     } catch (error) {
-        Swal.fire({
-            title: "Oh no :(",
-            text: (error as Error).message,
-            icon: "error",
-            timer: 10000,
-            toast: true,
-            position: "top-right",
-        });
+        Alerts.error(error as Error);
         throw new Error((error as Error).message);
     }
 }

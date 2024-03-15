@@ -12,6 +12,11 @@ export interface IBoard {
     time_delta: string;
 }
 
+export interface TimeStats {
+    seconds: number;
+    formatted: string;
+}
+
 export interface LeaderboardEntry {
     perfect: number;
     perfect_accuracy: number;
@@ -22,9 +27,9 @@ export interface LeaderboardEntry {
     times: string[];
     accuracy: number;
     active: { max: number; active: number; stopped: number };
-    fastest: { seconds: number; formatted: string };
-    average: { seconds: number; formatted: string };
-    median: { seconds: number; formatted: string };
+    fastest: TimeStats;
+    average: TimeStats;
+    median: TimeStats;
     deviation: { mean: number; population: number; user: number };
 }
 

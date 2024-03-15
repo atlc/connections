@@ -3,6 +3,8 @@ import { DayHeaderProps, IBoard } from "../../types";
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 import { addComment } from "../../services/addComment";
+import { DELETE } from "../../services/apiService";
+import { loadComments } from "../../services/loadBoards";
 
 /**
  *
@@ -39,10 +41,9 @@ const DayHeader = ({ day }: DayHeaderProps) => {
         setComment("");
     };
 
-    const DARK = isDark;
-    const LIGHT = !isDark;
-    const PERFECT = is_perfect;
-    const NOT_PERFECT = !is_perfect;
+    const handleDeleteComment = async (id: number) => {
+        DELETE(`/api/boards/comments/${id}`).then(loadComments);
+    };
 
     return (
         <>
@@ -102,7 +103,15 @@ const DayHeader = ({ day }: DayHeaderProps) => {
                                     }`}
                                 >
                                     <span className="d-block fw-bold">
-                                        {dc.name} <span className="fw-light">({new Date(dc.created_at).toLocaleTimeString()})</span>
+                                        {dc.name} <span className="fw-light">({new Date(dc.created_at).toLocaleTimeString()})</span>{" "}
+                                        {dc.name === currentUser && (
+                                            <span
+                                                onClick={() => handleDeleteComment(dc.id)}
+                                                className="bg-danger rounded-2 p-1 text-white text-center border border-2 border-dark"
+                                            >
+                                                X
+                                            </span>
+                                        )}
                                     </span>
 
                                     <span>{dc.text}</span>

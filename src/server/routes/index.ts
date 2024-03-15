@@ -46,6 +46,19 @@ router.post("/comments", async (req, res, next) => {
     }
 });
 
+router.delete("/comments/:id", async (req, res, next) => {
+    const id = parseInt(req.params.id);
+
+    if (!id) return res.status(400).json({ message: "Invalid comment ID" });
+
+    try {
+        await Boards.comments.delete(id);
+        res.status(201).json({ message: "Nuked!" });
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.use(errorHandler);
 
 export default router;
