@@ -13,13 +13,27 @@ Below are some screenshots showing a brief overview of the functionality.
 ### Desktop screenshots
 
 <details open>
+  <summary>A puzzle with comments (featuring dark mode)</summary>
+
+![](./media/Dark_Wide_Puzzle_With_Comments.png)
+
+</details>
+
+<details open>
+  <summary>Leaderboard metrics (dark mode)</summary>
+
+![](./media/Dark_Wide_Leaderboard.png)
+
+</details>
+
+<details>
 <summary>Submissions from multiple days of boards</summary>
 
 ![Submissions of two days of boards in a roughly widescreen aspect ratio](./media/Boards_Wide.png "Widescreen Board Submissions")
 
 </details>
 
-<details open>
+<details>
 <summary>Leaderboard metrics</summary>
 
 ![A leaderboard in a roughly widescreen aspect ratio keeping track of various scores and metrics](./media/Leaderboard_Wide.png "Widescreen Leaderboard")
@@ -27,6 +41,13 @@ Below are some screenshots showing a brief overview of the functionality.
 </details>
 
 ### Mobile screenshots
+
+<details open>
+  <summary>Responsive board (dark mode)</summary>
+
+![](./media/Dark_Responsive.png)
+
+</details>
 
 <details>
 <summary>Submissions from multiple days of boards</summary>
