@@ -1,16 +1,20 @@
 import Alerts from "./Alerts";
+import LocalStorage from "./LocalStorage";
 
 type ValidMethods = "GET" | "POST" | "PUT" | "DELETE";
 
-export const TOKEN_KEY = "token";
-
-async function fetcher<T = any>(url: string, method: ValidMethods = "GET", rawData?: unknown) {
+async function fetcher<T = any>(url: string, method: ValidMethods = "GET", rawData?: unknown, hideError: boolean = false) {
     const headers: HeadersInit = {};
 
     const options: RequestInit = {
         method,
         headers,
     };
+
+    const token = LocalStorage.token.get();
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
 
     if (method === "POST" || method === "PUT") {
         headers["Content-Type"] = "application/json";
@@ -26,19 +30,23 @@ async function fetcher<T = any>(url: string, method: ValidMethods = "GET", rawDa
                 resolve(data);
             } else {
                 console.error(data);
-                Alerts.error(new Error(data.message));
+                if (!hideError) {
+                    Alerts.error(new Error(data.message));
+                }
             }
         } catch (error) {
             console.error(error);
-            Alerts.error(error as Error);
+            if (!hideError) {
+                Alerts.error(error as Error);
+            }
         }
     });
 }
 
-export const GET = <T = any>(url: string) => fetcher<T>(url);
+export const GET = <T = any>(url: string, hideError?: boolean) => fetcher<T>(url, "GET", null, hideError);
 
-export const POST = <T = any>(url: string, data: unknown) => fetcher<T>(url, "POST", data);
+export const POST = <T = any>(url: string, data: unknown, hideError?: boolean) => fetcher<T>(url, "POST", data, hideError);
 
-export const PUT = <T = any>(url: string, data: unknown) => fetcher<T>(url, "PUT", data);
+export const PUT = <T = any>(url: string, data: unknown, hideError?: boolean) => fetcher<T>(url, "PUT", data, hideError);
 
-export const DELETE = <T = any>(url: string) => fetcher<T>(url, "DELETE");
+export const DELETE = <T = any>(url: string, hideError?: boolean) => fetcher<T>(url, "DELETE", null, hideError);

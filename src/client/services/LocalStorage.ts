@@ -1,31 +1,39 @@
 const DARK_MODE_KEY = "darkMode";
 const NAME_KEY = "name";
+const TOKEN_KEY = "token";
 
-const getName = () => {
-    const lsName = localStorage.getItem(NAME_KEY);
-    return lsName;
+const darkMode = {
+    get: () => {
+        const darkMode = localStorage.getItem(DARK_MODE_KEY) || "false";
+        return JSON.parse(darkMode);
+    },
+    set: (mode: boolean) => {
+        localStorage.setItem(DARK_MODE_KEY, JSON.stringify(mode));
+    },
 };
 
-const setName = (name: string) => {
-    localStorage.setItem(NAME_KEY, name);
+const name = {
+    get: () => {
+        const lsName = localStorage.getItem(NAME_KEY);
+        return lsName;
+    },
+    set: (name: string) => {
+        localStorage.setItem(NAME_KEY, name);
+    },
 };
 
-const getDarkMode = () => {
-    const darkMode = localStorage.getItem(DARK_MODE_KEY) || "false";
-    return JSON.parse(darkMode);
-};
-
-const setDarkMode = (mode: boolean) => {
-    localStorage.setItem(DARK_MODE_KEY, JSON.stringify(mode));
+const token = {
+    get: () => {
+        const token = localStorage.getItem(TOKEN_KEY);
+        return token;
+    },
+    set: (token: string) => {
+        localStorage.setItem(TOKEN_KEY, token);
+    },
 };
 
 export default {
-    name: {
-        get: getName,
-        set: setName,
-    },
-    darkMode: {
-        get: getDarkMode,
-        set: setDarkMode,
-    },
+    darkMode,
+    name,
+    token,
 };
