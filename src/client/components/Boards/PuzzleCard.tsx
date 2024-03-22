@@ -21,7 +21,7 @@ const PuzzleCard = (props: BoardCardProps) => {
 
     return (
         <>
-            <div key={`${name}-puzzle-card-${id}`} className="my-1 col-6 col-md-4 col-lg-3">
+            <div key={`${name}-puzzle-card-${id}`} className="my-1 col-6 col-md-4 col-lg-3 col-xl-2">
                 <div
                     className={`card p-1 shadow-lg border 
                       ${DARK && PERFECT && "bg-dark border-success"}
@@ -44,21 +44,13 @@ const PuzzleCard = (props: BoardCardProps) => {
                         <span className="emoji bg-success rounded-1 ">{is_hardmode ? "💪" : ""}</span>
                     </h3>
                     {is_timestamped && (
-                        <span
-                            className={`text-end ${
-                                is_perfect ? "text-success" : isDark ? "text-secondary" : "text-dark"
-                            } time`}
-                        >
-                            {timestamp}
-                        </span>
+                        <span className={`text-end ${is_perfect ? "text-success" : isDark ? "text-secondary" : "text-dark"} time`}>{timestamp}</span>
                     )}
 
                     <textarea
                         value={unsanitize(board)}
                         style={{ resize: "none" }}
-                        className={`form-control text-center ${
-                            isDark ? "bg-dark border border-top border-secondary" : "bg-light"
-                        }`}
+                        className={`form-control text-center ${isDark ? "bg-dark border border-top border-secondary" : "bg-light"}`}
                         rows={7}
                         readOnly
                     />

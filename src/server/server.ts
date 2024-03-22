@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(isProduction ? express.static("public") : cors());
 
-app.use("/api/boards", router);
+app.use("/api", router);
 
 if (isProduction) app.get("*", (req, res) => res.sendFile("index.html", { root: "public" }));
 

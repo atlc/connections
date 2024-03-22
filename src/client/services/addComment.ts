@@ -8,7 +8,7 @@ export async function addComment({ comment, name, day }: { comment: string; name
     const URL_PREFACE = process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
 
     try {
-        await POST("/api/boards/comments", { name, day, text: comment });
+        await POST("/api/comments", { name, day, text: comment });
         await loadComments();
     } catch (error) {
         Alerts.error(error as Error);

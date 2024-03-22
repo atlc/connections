@@ -42,7 +42,7 @@ const DayHeader = ({ day }: DayHeaderProps) => {
     };
 
     const handleDeleteComment = async (id: number) => {
-        DELETE(`/api/boards/comments/${id}`).then(loadComments);
+        DELETE(`/api/comments/${id}`).then(loadComments);
     };
 
     return (

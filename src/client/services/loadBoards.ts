@@ -8,7 +8,7 @@ import { GET } from "./apiService";
 import Alerts from "./Alerts";
 
 export async function loadComments() {
-    const data = await GET("/api/boards/comments");
+    const data = await GET("/api/comments");
     store.dispatch(sort_and_set_comments(data));
 }
 

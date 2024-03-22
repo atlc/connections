@@ -80,17 +80,9 @@ The server is a pretty minimalist Typescript+Node express server. For the persis
 
 ### Roadmap
 
-##### Miscellaneous
-
-Play nice chimes audio if you submit your score in under 60s; triple airhorn for a perfect score under 60s
-
-##### Data architecture/state management
-
-Since this left concept territory pretty quickly, my initial data architecture has migrated several times over with the desire to add in additional capabilities. As a result, there's a good bit of state creep, and being structured with many smaller components, there's a lot of prop drilling going on. Some global state management on the client side is close to becoming a necessity, and currently it seems like [Zustand](https://zustand-demo.pmnd.rs/) might be the better fit for my use cases over Redux/RTK or something more granular like Jotai. Before that, I'd also like to offload some of the calculations back to the server.
-
 ##### Styling
 
-I'll likely be migrating the UI to using Tailwind at some point, especially given that everything is capable of using responsive breakpoints.
+I'll likely be migrating the UI to using Tailwind or DIYing it with Styled Components.
 
 ##### Operations/interactivity
 
