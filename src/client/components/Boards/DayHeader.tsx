@@ -49,7 +49,15 @@ const DayHeader = ({ day }: DayHeaderProps) => {
         <>
             <h1 className={`text-center`}>
                 <span onClick={() => setShowComments(!showComments)} className={`btn btn-secondary mx-2`}>
-                    {showComments ? "Hide Comments" : "Show Comments"}
+                    {showComments ? (
+                        "Hide Comments"
+                    ) : dailyComments.length ? (
+                        <span>
+                            Show Comments <strong>({dailyComments.length})</strong>
+                        </span>
+                    ) : (
+                        "Show Comments (0)"
+                    )}
                 </span>
                 Puzzle #{day}{" "}
                 {many_have_played &&
