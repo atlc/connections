@@ -9,7 +9,14 @@ const isProduction = process.env.NODE_ENV === "production";
 const app = express();
 
 app.use(express.json());
-app.use(isProduction ? express.static("public") : cors());
+
+app.use(cors());
+
+if (isProduction) {
+    app.use(express.static("public"));
+}
+
+app.get("/api/health", (req, res) => res.status(200).json({ message: "All good!" }));
 
 app.use("/api", tokenCheck, router);
 app.get("/auth/request", requisitionToken);
