@@ -17,7 +17,10 @@ const BoardInput = () => {
     const isDark = useSelector((state: RootState) => state.inputs.darkMode);
 
     const add = async () => {
-        await addBoard({ board, name });
+        const date = new Date();
+        const created_at = date.toISOString().split(".")[0].split("T").join(" ");
+
+        await addBoard({ board, name, created_at });
         dispatch(setShowAddBoard(false));
         dispatch(setBoard(""));
     };
@@ -31,15 +34,16 @@ const BoardInput = () => {
                             placeholder="Paste your board here exactly as it comes from the NYT"
                             rows={6}
                             style={{ resize: "none" }}
-                            className={`my-2 form-control border ${
-                                isDark ? "bg-secondary border-secondary" : "bg-white border-white text-dark"
-                            }`}
+                            className={`my-2 form-control border ${isDark ? "bg-secondary border-secondary" : "bg-white border-white text-dark"}`}
                             value={board}
                             onChange={(e) => dispatch(setBoard(e.target.value))}
                         />
                     )}
                     {board && (
-                        <button onClick={add} className="btn btn-secondary">
+                        <button
+                            onClick={add}
+                            className="btn btn-secondary"
+                        >
                             Add board
                         </button>
                     )}

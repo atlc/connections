@@ -25,8 +25,6 @@ const tokenCheck: RequestHandler = (req, res, next) => {
         info = error;
     }
 
-    const elements = { ip, method, url: originalUrl, type, token, status, info };
-    console.log(elements);
     next();
 };
 

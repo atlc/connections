@@ -1,9 +1,9 @@
 import type { RequestHandler, ErrorRequestHandler } from "express";
 
 export const hasGoodBoard: RequestHandler = (req, res, next) => {
-    const { name, board, number } = req.body;
+    const { name, board, number, created_at } = req.body;
 
-    if (!name || !board || !number) {
+    if (!name || !board || !number || !created_at) {
         return res.status(400).json({ message: `Make sure both name and the board are provided!` });
     }
 
@@ -23,6 +23,7 @@ export const hasGoodBoard: RequestHandler = (req, res, next) => {
         number,
         is_perfect,
         is_win,
+        created_at,
     };
 
     next();

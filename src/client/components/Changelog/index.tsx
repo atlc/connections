@@ -15,9 +15,16 @@ interface IEntry {
     }[];
 }
 
-const LAST_UPDATE: DateFormat["mM/dD"] = `3/15`;
+const LAST_UPDATE: DateFormat["mM/dD"] = `7/23`;
 
 const entries: IEntry[] = [
+    {
+        date: "2024-07-23",
+        notes: [
+            { text: "Created new daily text to celebrate those who are the sole person to have a perfect board", shouldHighlight: true },
+            { text: "Updated timestamping to occur client-side to account for playing in non-central timezones" },
+        ],
+    },
     {
         date: "2024-03-15",
         notes: [
@@ -91,19 +98,34 @@ const Changelog = () => {
     };
 
     return (
-        <div className="row justify-content-center overflow-scroll border border-secondary border-1 rounded-3 p-1 mx-1" style={{ maxHeight: "33vh" }}>
-            <h1 className={`text-${isDark ? "secondary" : "dark"}`} onClick={() => setCollapsed(!collapsed)}>
+        <div
+            className="row justify-content-center overflow-scroll border border-secondary border-1 rounded-3 p-1 mx-1"
+            style={{ maxHeight: "33vh" }}
+        >
+            <h1
+                className={`text-${isDark ? "secondary" : "dark"}`}
+                onClick={() => setCollapsed(!collapsed)}
+            >
                 Changelog ({LAST_UPDATE}) <span className="btn btn-secondary">{collapsed ? "show" : "hide"} updates</span>
             </h1>
             {!collapsed &&
                 entries
                     .sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
                     .map((entry) => (
-                        <div key={`changelog-div-${entry.date}`} className="col-12">
-                            <h2 className={`text-${isDark ? "secondary" : "dark"}`} onClick={() => setCollapsed(!collapsed)}>
+                        <div
+                            key={`changelog-div-${entry.date}`}
+                            className="col-12"
+                        >
+                            <h2
+                                className={`text-${isDark ? "secondary" : "dark"}`}
+                                onClick={() => setCollapsed(!collapsed)}
+                            >
                                 {formatDate(new Date(entry.date))}
                             </h2>
-                            <ul className={`text-${isDark ? "secondary" : "dark"}`} onClick={() => setCollapsed(!collapsed)}>
+                            <ul
+                                className={`text-${isDark ? "secondary" : "dark"}`}
+                                onClick={() => setCollapsed(!collapsed)}
+                            >
                                 {entry.notes.map((ent, i) => (
                                     <li key={`changelog-entry-${entry.date}-${i}`}>
                                         <span className={ent.shouldHighlight ? "fw-bold" : ""}>{ent.text}</span>

@@ -28,6 +28,10 @@ const DayHeader = ({ day }: DayHeaderProps) => {
 
     const perfections = boards[day].filter((b) => b.is_perfect);
     const players = boards[day];
+
+    const one_lone_hero = perfections.length === 1;
+    const whos_the_hero = players.find((b) => b.is_perfect)?.name || "<<Andrew sucks at coding, could not find name>>";
+
     const one_person_screwed_up = players.length - 1 === perfections.length;
     const whos_to_blame = players.find((b) => !b.is_perfect)?.name || "<<Andrew sucks at coding, could not find name>>";
 
@@ -48,7 +52,10 @@ const DayHeader = ({ day }: DayHeaderProps) => {
     return (
         <>
             <h1 className={`text-center`}>
-                <span onClick={() => setShowComments(!showComments)} className={`btn btn-secondary mx-2`}>
+                <span
+                    onClick={() => setShowComments(!showComments)}
+                    className={`btn btn-secondary mx-2`}
+                >
                     {showComments ? (
                         "Hide Comments"
                     ) : dailyComments.length ? (
@@ -60,18 +67,30 @@ const DayHeader = ({ day }: DayHeaderProps) => {
                     )}
                 </span>
                 Puzzle #{day}{" "}
-                {many_have_played &&
-                    (all_are_perfect ? (
-                        <em className="text-success">(Team ACE!)</em>
-                    ) : all_are_failures ? (
-                        <em className="text-danger">(Embarrassing!)</em>
-                    ) : one_person_screwed_up ? (
-                        <p style={{ fontSize: "1rem" }} className={isDark ? "text-secondary" : "text-muted"}>
-                            WOMP WOMP - we were <em>almost</em> all perfect. Thanks, {whos_to_blame}!
-                        </p>
-                    ) : (
-                        ""
-                    ))}
+                <div className="mt-2">
+                    {many_have_played &&
+                        (all_are_perfect ? (
+                            <em className="text-success">(Team ACE!)</em>
+                        ) : all_are_failures ? (
+                            <em className="text-danger">(Embarrassing!)</em>
+                        ) : one_lone_hero ? (
+                            <p
+                                style={{ fontSize: "1rem" }}
+                                className={isDark ? "text-secondary" : "text-muted"}
+                            >
+                                Nice save - {whos_the_hero} stands all alone, perfect today!
+                            </p>
+                        ) : one_person_screwed_up ? (
+                            <p
+                                style={{ fontSize: "1rem" }}
+                                className={isDark ? "text-secondary" : "text-muted"}
+                            >
+                                WOMP WOMP - we were <em>almost</em> all perfect. Thanks, {whos_to_blame}!
+                            </p>
+                        ) : (
+                            ""
+                        ))}
+                </div>
             </h1>
             {showComments && (
                 <div
@@ -90,7 +109,10 @@ const DayHeader = ({ day }: DayHeaderProps) => {
                             />
                         </div>
                         <div className="col-12 col-md-4 my-1">
-                            <button onClick={handleAddComment} className="btn btn-secondary">
+                            <button
+                                onClick={handleAddComment}
+                                className="btn btn-secondary"
+                            >
                                 Add Comment{" "}
                                 <span className="fw-bold">
                                     {comment.length}/{MAX_COMMENT_LENGTH}
@@ -100,7 +122,10 @@ const DayHeader = ({ day }: DayHeaderProps) => {
                     </div>
                     <div className="col-12 col-md-10">
                         {dailyComments.map((dc) => (
-                            <div key={`${dc.name}-comment-${dc.id}`} className={`d-flex ${currentUser === dc.name ? "flex-row-reverse" : "flex-row"}`}>
+                            <div
+                                key={`${dc.name}-comment-${dc.id}`}
+                                className={`d-flex ${currentUser === dc.name ? "flex-row-reverse" : "flex-row"}`}
+                            >
                                 <div
                                     className={`col-10 shadow p-2 mw-100 my-1 rounded-3  ${
                                         currentUser === dc.name
