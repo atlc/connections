@@ -35,6 +35,7 @@ export async function loadPastBoards() {
             wins: 0,
             gunslingers: 0,
             hard_modes: 0,
+            the_peoples_champ: 0,
             times: [],
             active: { active: 0, max: 0, stopped: 0 },
             fastest: { seconds: 0, formatted: "" },
@@ -71,7 +72,7 @@ export async function loadPastBoards() {
 
             const dayBoard = byDate[day];
 
-            dayBoard.forEach(({ name, number, is_perfect, is_win, is_gunslinger, time_delta, is_hardmode }, i) => {
+            dayBoard.forEach(({ name, number, is_perfect, is_win, is_gunslinger, time_delta, is_hardmode, is_the_champion }, i) => {
                 const first_timestamp_day = 172;
                 const parsedDay = parseInt(number);
 
@@ -93,6 +94,10 @@ export async function loadPastBoards() {
 
                 if (is_win) {
                     leaders[name].wins += 1;
+                }
+
+                if (is_the_champion) {
+                    leaders[name].the_peoples_champ += 1;
                 }
             });
         });

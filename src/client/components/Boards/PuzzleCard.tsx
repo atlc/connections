@@ -9,7 +9,7 @@ import { RootState } from "../../store";
  * @returns A card consisting of an individual user's submission for the day
  */
 const PuzzleCard = (props: BoardCardProps) => {
-    const { name, id, is_perfect, board, number, timestamp, is_gunslinger, is_hardmode } = props.board;
+    const { name, id, is_perfect, board, number, timestamp, is_gunslinger, is_hardmode, is_the_champion } = props.board;
     const first_timestamp_day = 172;
     const is_timestamped = parseInt(number) && parseInt(number) > first_timestamp_day;
     const isDark = useSelector((state: RootState) => state.inputs.darkMode);
@@ -21,7 +21,10 @@ const PuzzleCard = (props: BoardCardProps) => {
 
     return (
         <>
-            <div key={`${name}-puzzle-card-${id}`} className="my-1 col-6 col-md-4 col-lg-3 col-xl-2">
+            <div
+                key={`${name}-puzzle-card-${id}`}
+                className="my-1 col-6 col-md-4 col-lg-3 col-xl-2"
+            >
                 <div
                     className={`card p-1 shadow-lg border 
                       ${DARK && PERFECT && "bg-dark border-success"}
@@ -40,6 +43,7 @@ const PuzzleCard = (props: BoardCardProps) => {
                     >
                         {name}
                         <span className="emoji">{is_perfect ? "🌠" : ""}</span>
+                        <span className="emoji">{is_the_champion ? "🏆" : ""}</span>
                         <span className="emoji">{is_gunslinger ? "⏱️" : ""}</span>
                         <span className="emoji bg-success rounded-1 ">{is_hardmode ? "💪" : ""}</span>
                     </h3>

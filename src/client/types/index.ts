@@ -8,6 +8,7 @@ export interface IBoard {
     is_perfect: boolean;
     is_gunslinger: boolean;
     is_hardmode: boolean;
+    is_the_champion: boolean;
     timestamp: string;
     time_delta: string;
 }
@@ -24,6 +25,7 @@ export interface LeaderboardEntry {
     total: number;
     gunslingers: number;
     hard_modes: number;
+    the_peoples_champ: number;
     times: string[];
     accuracy: number;
     active: { max: number; active: number; stopped: number };

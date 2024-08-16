@@ -11,6 +11,7 @@ import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 import MedianTime from "./MedianTime";
 import HardModes from "./HardModes";
+import PeoplesChamp from "./ThePeoplesChamp";
 
 /**
  *
@@ -27,7 +28,10 @@ const Leaderboard = () => {
                 <table className={`table table-sm table-striped table-${isDark ? "dark" : "secondary"} table-bordered`}>
                     <thead>
                         <tr>
-                            <th className={`text-center text-${isDark ? "secondary" : "dark"}`} scope="col">
+                            <th
+                                className={`text-center text-${isDark ? "secondary" : "dark"}`}
+                                scope="col"
+                            >
                                 Place
                             </th>
                             {Object.keys(leaderBoard).map((_, i) => (
@@ -46,6 +50,7 @@ const Leaderboard = () => {
                         <Accuracy />
                         <Perfect />
                         <PerfectAccuracy />
+                        <PeoplesChamp />
                         <Gunslinger />
                         <HardModes />
                         <MedianTime />

@@ -20,7 +20,7 @@ export const boardsSlice = createSlice({
 
             const HARD_MODE_ORDER = "PBGY";
 
-            getDateAttributes(payload).forEach((b) => {
+            getDateAttributes(payload).forEach((b, i) => {
                 const board_order = b.board
                     .split("\n")
                     .map((str) => str[0])
@@ -35,6 +35,20 @@ export const boardsSlice = createSlice({
                     byDate[b.number].push(b);
                 }
             });
+
+            const COUNT = byDate[Object.keys(byDate)[0]].length;
+
+            Object.keys(byDate).forEach((date) => {
+                const day = byDate[date];
+                const perfections = day.filter((b) => b.is_perfect);
+                const has_champion = perfections.length === 1;
+
+                if (has_champion) {
+                    const champ = perfections[0].name;
+                    day[day.findIndex((b) => b.name === champ)].is_the_champion = true;
+                }
+            });
+
             state.boards = byDate;
         },
     },

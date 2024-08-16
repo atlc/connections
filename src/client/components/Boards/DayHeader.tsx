@@ -29,6 +29,8 @@ const DayHeader = ({ day }: DayHeaderProps) => {
     const perfections = boards[day].filter((b) => b.is_perfect);
     const players = boards[day];
 
+    const champ = boards[day].find((b) => b.is_the_champion)?.name || "";
+
     const one_lone_hero = perfections.length === 1;
     const whos_the_hero = players.find((b) => b.is_perfect)?.name || "<<Andrew sucks at coding, could not find name>>";
 
@@ -73,12 +75,12 @@ const DayHeader = ({ day }: DayHeaderProps) => {
                             <em className="text-success">(Team ACE!)</em>
                         ) : all_are_failures ? (
                             <em className="text-danger">(Embarrassing!)</em>
-                        ) : one_lone_hero ? (
+                        ) : champ ? (
                             <p
                                 style={{ fontSize: "1rem" }}
                                 className={isDark ? "text-secondary" : "text-muted"}
                             >
-                                Nice save - {whos_the_hero} stands all alone, perfect today!
+                                Nice save - {champ} stands as the lonely perfect champion today!
                             </p>
                         ) : one_person_screwed_up ? (
                             <p
