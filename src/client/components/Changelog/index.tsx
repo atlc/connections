@@ -15,9 +15,14 @@ interface IEntry {
     }[];
 }
 
-const LAST_UPDATE: DateFormat["mM/dD"] = `7/23`;
-
 const entries: IEntry[] = [
+    {
+        date: "2024-08-16",
+        notes: [
+            { text: "Added in People's Champ leaderboard item and trophy emoji for users who were the sole perfectionist of the day" },
+            { text: "Added a tally of total submissions beneath the Leaderboard header" },
+        ],
+    },
     {
         date: "2024-07-23",
         notes: [
@@ -86,6 +91,10 @@ const entries: IEntry[] = [
     },
 ];
 
+const last_update = entries[0].date;
+let [yyyy, mm, dd] = last_update.split("-").map((strnum) => parseInt(strnum));
+const LAST_UPDATE_FORMATTED: DateFormat["mM/dD"] = `${mm}/${dd}`;
+
 const Changelog = () => {
     const [collapsed, setCollapsed] = useState(true);
     const isDark = useSelector((state: RootState) => state.inputs.darkMode);
@@ -106,7 +115,7 @@ const Changelog = () => {
                 className={`text-${isDark ? "secondary" : "dark"}`}
                 onClick={() => setCollapsed(!collapsed)}
             >
-                Changelog ({LAST_UPDATE}) <span className="btn btn-secondary">{collapsed ? "show" : "hide"} updates</span>
+                Changelog ({LAST_UPDATE_FORMATTED}) <span className="btn btn-secondary">{collapsed ? "show" : "hide"} updates</span>
             </h1>
             {!collapsed &&
                 entries
