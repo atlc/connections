@@ -7,8 +7,10 @@ export interface ByDate {
     [board_number: string]: IBoard[];
 }
 
-const initialState: { boards: ByDate } = {
+const initialState: { boards: ByDate; days: number; submissions: number } = {
     boards: {},
+    days: 0,
+    submissions: 0,
 };
 
 export const boardsSlice = createSlice({
@@ -19,8 +21,10 @@ export const boardsSlice = createSlice({
             const byDate: { [key: string]: IBoard[] } = {};
 
             const HARD_MODE_ORDER = "PBGY";
+            let submissions = 0;
 
             getDateAttributes(payload).forEach((b, i) => {
+                submissions++;
                 const board_order = b.board
                     .split("\n")
                     .map((str) => str[0])
@@ -36,8 +40,6 @@ export const boardsSlice = createSlice({
                 }
             });
 
-            const COUNT = byDate[Object.keys(byDate)[0]].length;
-
             Object.keys(byDate).forEach((date) => {
                 const day = byDate[date];
                 const perfections = day.filter((b) => b.is_perfect);
@@ -50,6 +52,8 @@ export const boardsSlice = createSlice({
             });
 
             state.boards = byDate;
+            state.days = Object.keys(byDate).length;
+            state.submissions = submissions;
         },
     },
 });

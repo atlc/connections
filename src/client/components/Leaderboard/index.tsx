@@ -20,31 +20,23 @@ import PeoplesChamp from "./ThePeoplesChamp";
 const Leaderboard = () => {
     const leaderBoard = useSelector((state: RootState) => state.leaderboard.leaderboard);
     const isDark = useSelector((state: RootState) => state.inputs.darkMode);
-
-    const submissions = Object.keys(leaderBoard)
-        .map((lb) => leaderBoard[lb].total)
-        .reduce((a, b) => a + b, 0);
+    const boardState = useSelector((state: RootState) => state.boards);
 
     return (
         <div className="mt-2">
             <h1 className={`text-${isDark ? "secondary" : "dark"}`}>Leaderboard:</h1>
-            <h6 className={`text-${isDark ? "secondary" : "dark"}`}>({submissions.toLocaleString()} submissions and counting!)</h6>
+            <h6 className={`text-${isDark ? "secondary" : "dark"}`}>
+                ({boardState.submissions.toLocaleString()} submissions, {boardState.days.toLocaleString()} days and counting!)
+            </h6>
             <div className="table-responsive">
                 <table className={`table table-sm table-striped table-${isDark ? "dark" : "secondary"} table-bordered`}>
                     <thead>
                         <tr>
-                            <th
-                                className={`text-center text-${isDark ? "secondary" : "dark"}`}
-                                scope="col"
-                            >
+                            <th className={`text-center text-${isDark ? "secondary" : "dark"}`} scope="col">
                                 Place
                             </th>
                             {Object.keys(leaderBoard).map((_, i) => (
-                                <th
-                                    className={`text-center text-${isDark ? "secondary" : "dark"}`}
-                                    key={`leaderboard-th-place-${i}`}
-                                    scope="col"
-                                >
+                                <th className={`text-center text-${isDark ? "secondary" : "dark"}`} key={`leaderboard-th-place-${i}`} scope="col">
                                     #{i + 1}
                                 </th>
                             ))}
