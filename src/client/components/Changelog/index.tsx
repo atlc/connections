@@ -24,7 +24,7 @@ const Changelog = () => {
         {
             date: "2024-12-27",
             notes: [
-                { text: `Speeding up client side rendering by only the 7 most recent days (instead of ${days} total days)`, shouldHighlight: true },
+                { text: `Speeding up page loading by initially showing just the 7 most recent days (instead of ${days} total days)`, shouldHighlight: true },
                 { text: "Fixed bug that allowed a board that failed to get a hard mode if the board was entered with the first character" },
                 { text: "Fixed bug where submissions where the solution was pasted multiple times should only show a singular submission" },
                 { text: "(Largely affecting myself) Highlight failed boards in red" },
