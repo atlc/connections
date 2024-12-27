@@ -27,7 +27,7 @@ export const boardsSlice = createSlice({
                     .join("");
 
                 const completed_hard_mode = board_order === HARD_MODE_ORDER;
-                b.is_hardmode = completed_hard_mode;
+                b.is_hardmode = completed_hard_mode && b.is_win;
 
                 if (!byDate[b.number]) {
                     byDate[b.number] = [b];

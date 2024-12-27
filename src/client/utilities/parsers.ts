@@ -11,6 +11,12 @@ export const sanitize = (boardString: string) => {
 };
 
 export const unsanitize = (sanitizedBoard: string) => {
+    const rows = sanitizedBoard.split("\n");
+
+    if (rows.length > 7) {
+        sanitizedBoard = sanitizedBoard.split("#")[0];
+    }
+
     return sanitizedBoard.replace(/P/g, "🟪").replace(/B/g, "🟦").replace(/G/g, "🟩").replace(/Y/g, "🟨");
 };
 
